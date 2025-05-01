@@ -1,7 +1,7 @@
 # React + Vite
 
 Cara menjalankan
-pastikan kamu udah ada install
+pastikan kamu udah ada install Node
 kemudian:
 
 ```shell
