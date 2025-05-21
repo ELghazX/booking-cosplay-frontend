@@ -1,21 +1,15 @@
-import { useState } from 'react'
 import './App.css'
-import { Routes, Route } from "react-router";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Homepage from './pages/Homepage';
+import Home from "./pages/Home";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <Routes>
-      {/* ini contoh */}
-      <Route path="/halaman" element={<Homepage />} />
-      <Route path="/login" element={<Homepage />} />
-      <Route path="/register" element={<Homepage />} />
+      <Route path="/" element={<Home />} />
       <Route path="/detail-produk" element={<Homepage />} />
       <Route path="/profil/:id" element={<Homepage />} />
     </Routes>
-
   )
 }
 

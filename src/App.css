@@ -1,2 +1,34 @@
-@import "tailwindcss";
+body {
+    background-color: #FFF7F3;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    color: #C599B6;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+}
+
+.navbarMenu {
+    list-style: none;
+    display: flex;
+    align-self: center;
+    padding: 0;
+}
+
+.navbarMenu a {
+    text-align: center;
+    margin: 10px;
+}
+
+.tambahannav {
+    color: #FFF7F3;
+}
+
 
