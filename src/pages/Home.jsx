@@ -1,11 +1,20 @@
 import Navbar from "../Components/Navbar";
+import ButtonLink from "../Components/ButtonLink";
+import foto from "../assets/Group 8.png";
+import bentuk from "../assets/Vector 1.png";
 
 export default function Home() {
   return (
     <>
       <Navbar/>
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-500 to-pink-500 text-white">
-        <a href='https://www.youtube.com/watch?v=xvFZjo5PgG0&pp=ygUIcmlja3JvbGzSBwkJjQkBhyohjO8%3D' className="text-4xl font-bold">Selamat datang di Booking Kostum Cosplay!</a>
+      <img src={bentuk} className="bentuk" />
+      <div className="section1">
+        <div>
+          <h1>Jadilah Apa Yang </h1>
+          <h1>Kamu Inginkan!!!</h1>
+          <ButtonLink/>
+        </div>
+        <img src={foto} alt="" />
       </div>
     </>
   );

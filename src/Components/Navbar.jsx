@@ -3,7 +3,7 @@ function Navbar () {
   return (
     <div className="navbar">
       <div className="navbarLogo">
-        <h1>ChocoMintCos</h1>
+        <h1><Link to="/">ChocoMintCos</Link></h1>
       </div>
       <ul className="navbarMenu">
         <li><Link to="/">Beranda</Link></li>

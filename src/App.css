@@ -2,17 +2,30 @@ body {
     background-color: #FFF7F3;
     margin: 0;
     font-family: Arial, sans-serif;
+
 }
 
 .navbar {
-    width: 100%;
-    height: 60px;
+    height: 80px;
     display: flex;
     flex-direction: row;
     color: #C599B6;
+    background-color: #FFF7F3;
     align-items: center;
     justify-content: space-between;
     padding: 0 5%;
+    box-shadow: #C599B6 0px 0px 10px;
+    z-index: 1; 
+}
+
+.navbarLogo, 
+.tambahannav {
+    font-size: 1.6em;
+}
+
+.navbarLogo a {
+    color: #C599B6;
+    text-decoration: none;
 }
 
 .navbarMenu {
@@ -23,6 +36,9 @@ body {
 }
 
 .navbarMenu a {
+    color: #C599B6;
+    font-size: 1.3em;
+    text-decoration: none;
     text-align: center;
     margin: 10px;
 }
@@ -32,3 +48,22 @@ body {
 }
 
 
+.section1 {
+    margin: 100px 5%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between
+}
+
+.section1 img {
+    width: 50%;
+}
+
+.bentuk {
+    position: absolute;
+    width: 60%;
+    top: 0;
+    right: 0;
+    z-index: -1;
+}
