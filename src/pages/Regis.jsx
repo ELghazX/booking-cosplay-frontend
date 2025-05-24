@@ -1,4 +1,4 @@
-export default function Admin() {
+export default function Regis() {
     return (
         <>
             <div className="flex flex-col items-center justify-center h-screen bg-[#FFF7F3]">

@@ -1,4 +1,4 @@
-export default function Profile() {
+export default function Abot() {
     return (
         <div className="flex flex-col items-center justify-center h-screen bg-[#FFF7F3]">
         <div className="w-full max-w-2xl p-6 bg-white rounded-lg shadow-md">
@@ -13,4 +13,4 @@ export default function Profile() {
         </div>
         </div>
     );
-    }
+}
