@@ -7,7 +7,7 @@ function Register() {
 
           <input
             type="text"
-            placeholder="Username"
+            placeholder="Email"
             className="w-full mb-4 p-2 bg-white border-none rounded shadow-sm"
           />
           <input
