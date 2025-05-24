@@ -4,7 +4,7 @@ function ButtonLink({ children, href, className }) {
     return (
         <>
             <button>
-                <Link to="/login">Sewa Sekarang</Link>
+                <Link to="/Login">Sewa Sekarang</Link>
             </button>
         </>
     );    

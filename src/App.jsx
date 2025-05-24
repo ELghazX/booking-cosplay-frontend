@@ -17,7 +17,7 @@ function App() {
       <Route path="/koleksi" element={<Koleksi />} />
       <Route path="/about" element={<About />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      <Route path="/Regis" element={<Register />} />
       <Route path="*" element={<h1>404 Not Found</h1>} />
     </Routes>
   )
