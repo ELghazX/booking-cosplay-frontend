@@ -1,13 +1,17 @@
-import { Link } from "react-router";
+import { useNavigate } from "react-router-dom";
 
-function ButtonLink({ children, href, className }) {
+function ButtonLink({ nama, path, className = "" }) {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(path);
+    };
+
     return (
-        <>
-            <button>
-                <Link to="/login">Sewa Sekarang</Link>
-            </button>
-        </>
-    );    
+        <div className={className} onClick={handleClick}>
+            <p>{nama}</p>
+        </div>
+    );
 }
 
 export default ButtonLink;
