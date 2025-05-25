@@ -11,6 +11,17 @@ export default function Koleksi() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const validateImageUrl = (imageUrl) => {
+    // First check if imageUrl exists
+    if (!imageUrl) return rijal;
+    
+    // Then check if it has a valid image extension
+    const isValidFormat = /\.(jpe?g|png)$/i.test(imageUrl);
+    
+    // Return formatted path or fallback
+    return isValidFormat ? `/img/${imageUrl}` : rijal;
+  };
+
   useEffect(() => {
     const fetchItems = async () => {
       try {
@@ -80,7 +91,7 @@ export default function Koleksi() {
                   kategori: item.category.toLowerCase(),
                   name: item.name,
                   harga: item.price,
-                  url: item.imageUrl ? `/img/${item.imageUrl}` : rijal, // fallback to rijal if imageUrl is missing
+                  url: validateImageUrl(item.imageUrl) // fallback to rijal if imageUrl is missing
                 }}
               />
             ))}
