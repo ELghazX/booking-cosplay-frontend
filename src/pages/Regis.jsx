@@ -15,16 +15,16 @@ export default function Regis() {
         e.preventDefault();
         try {
             const res = await api.post("/auth/register", form);
-            if (res.data.status === "true") {
+            if (res.data.status === true) {
                 alert("Register sukses! Silakan login.");
+                setForm({ name: "", email: "", phone: "", password: "" }); 
                 navigate(`/login`);
+
             } else {
                 alert(res.data.message || "Register gagal!");
-                setForm({ name: "", email: "", phone: "", password: "" }); // reset form
             }
         } catch (err) {
             alert("Register gagal! " + (err.response?.data?.message || err.message));
-            setForm({ name: "", email: "", phone: "", password: "" }); // reset form
         }
     };
 

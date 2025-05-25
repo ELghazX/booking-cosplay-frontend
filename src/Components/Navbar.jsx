@@ -1,9 +1,20 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router"
-function Navbar () {
+import { Link } from "react-router";
+import profileImg from "../assets/profile.png";
+import MiniMenu from "./MiniMenu"; 
+
+function Navbar() {
   const navigate = useNavigate();
-  const handleClick = () => {
-    navigate(`/login`);
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const [showMenu, setShowMenu] = useState(false);
+
+  const handleLogin = () => {
+    navigate("/login");
+  };
+
+  const handleProfileClick = () => {
+    setShowMenu((prev) => !prev);
   };
 
   return (
@@ -16,8 +27,29 @@ function Navbar () {
         <li><Link to="/koleksi" className="text-[#C599B6] text-[1.3em] no-underline text-center mx-2.5">Koleksi</Link></li>
         <li><Link to="/about" className="text-[#C599B6] text-[1.3em] no-underline text-center mx-2.5">About</Link></li>
       </ul>
-      <div className="place-self-right justify-self-end" onClick={handleClick}>
-        <p className="px-5 py-3 bg-[#C599B6] text-[#FFF7F3] font-bold rounded hover:bg-[#A67A9E] transition-colors">Login</p>
+      <div className="place-self-right justify-self-end relative">
+        {isLoggedIn ? (
+          <>
+            <img
+              src={profileImg}
+              alt="Profile"
+              onClick={handleProfileClick}
+              className="w-12 h-12 rounded-full border-2 border-[#C599B6] cursor-pointer object-cover hover:shadow-lg transition-shadow"
+            />
+            {showMenu && (
+              <div className="absolute right-0 mt-2 z-50">
+                <MiniMenu />
+              </div>
+            )}
+          </>
+        ) : (
+          <p
+            className="px-5 py-3 bg-[#C599B6] text-[#FFF7F3] font-bold rounded hover:bg-[#A67A9E] transition-colors cursor-pointer"
+            onClick={handleLogin}
+          >
+            Login
+          </p>
+        )}
       </div>
     </div>
   );

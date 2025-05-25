@@ -16,7 +16,7 @@ function Login() {
     setError("");
     try {
       const res = await api.post("/auth/login", form);
-      if (res.data.status === "true") {
+      if (res.data.status === true) {
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("userRole", res.data.data.role);
         localStorage.setItem("userId", res.data.data.id);
