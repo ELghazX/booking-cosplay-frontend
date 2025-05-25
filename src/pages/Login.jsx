@@ -1,36 +1,58 @@
-function Login() {
+import { FaEnvelope, FaLock } from "react-icons/fa";
+import illustration from "../assets/Frame 33.png"; // Ganti sesuai path gambar kamu
+
+const Login = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#FFF5F0]">
-      <div className="flex bg-[#F9C9B8] px-14 py-10 rounded-lg shadow-md items-center space-x-12">
-        <div className="bg-white p-6 rounded">
+    <div className="min-h-screen bg-[#FFF5F2] flex items-center justify-center">
+      <div
+        className="bg-[#FACCC8] rounded-3xl shadow-xl flex flex-col md:flex-row items-center justify-between overflow-hidden"
+        style={{ width: "1466px", height: "796px" }}
+      >
+        {/* Left - Image */}
+        <div className="w-full md:w-1/2 flex justify-center items-center h-full">
           <img
-            src="/cosplay-logo.png" // Pastikan file ada di public/
-            alt="Cosplay Logo"
-            className="w-32 h-32 object-contain"
+            src={illustration}
+            alt="Illustration"
+            className="w-[80%] max-w-[400px]"
           />
         </div>
 
-        {/* Login Form */}
-        <div className="flex flex-col items-center w-72">
-          <h2 className="text-black font-bold text-xl mb-6 text-center">LOGIN</h2>
+        {/* Right - Form */}
+        <div className="w-full md:w-1/2 px-16">
+          <h2 className="text-3xl font-bold text-center mb-8">LOGIN</h2>
+          <form className="space-y-6">
+            {/* Email */}
+            <div className="relative">
+              <FaEnvelope className="absolute top-3 left-3 text-gray-400" />
+              <input
+                type="email"
+                placeholder="email@gmail.com"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-300 bg-white"
+              />
+            </div>
 
-          <input
-            type="text"
-            placeholder="Username"
-            className="w-full mb-4 p-2 bg-white border-none rounded shadow-sm"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-full mb-6 p-2 bg-white border-none rounded shadow-sm"
-          />
-          <button className="w-full bg-[#B679B1] text-white py-2 rounded-md hover:bg-[#a765a4]">
-            LOGIN
-          </button>
+            {/* Password */}
+            <div className="relative">
+              <FaLock className="absolute top-3 left-3 text-gray-400" />
+              <input
+                type="password"
+                placeholder="••••••••"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-300 bg-white"
+              />
+            </div>
+
+            {/* Button */}
+            <button
+              type="submit"
+              className="w-full bg-[#C99EBF] text-white font-semibold py-2 rounded-md hover:bg-[#b987ac] transition"
+            >
+              LOGIN
+            </button>
+          </form>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Login;
