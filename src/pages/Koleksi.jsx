@@ -79,8 +79,8 @@ export default function Koleksi() {
                   kategori: item.category.toLowerCase(),
                   name: item.name,
                   harga: `Rp. ${item.price.toLocaleString('id-ID')}`,
-                  ukuran: "M", // Default size
-                  url: rijal, // Placeholder
+                  ukuran: "M", // idk where this goes
+                  url: rijal, // picture for later once backend exists
                 }}
               />
             ))}
