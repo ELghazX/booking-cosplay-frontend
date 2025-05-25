@@ -40,7 +40,7 @@ export default function Home() {
           Jadilah Apa Yang Kamu Inginkan!!!
         </p>
         <ButtonLink
-          path="/koleksi"
+          path="/Koleksi"
           nama="Sewa Sekarang"
           className="text-5xl text-[#FFF7F3] bg-[#C599B6] rounded-2xl w-100 text-center py-3 hover:bg-[#C899B6] transition ease-in-out duration-300 shadow-[0_0_10px_#C599B6] hover:shadow-[0_0_40px_#C899B6] hover:scale-105"
         />

@@ -11,7 +11,10 @@ import Userprofile from './pages/Userprofile';
 import Admin from './pages/Admin';
 import Editbooking from './pages/Editbooking';
 import DetailBooking from './pages/DetailBooking';
-
+import Pendingbooking from './pages/Pendingbooking';
+import Confirmedbooking from './pages/Confirmedbooking';
+import Cancelledbooking from './pages/Cancelledbooking';
+import Bookinghistory from './pages/Bookinghistory';
 
 
 function App() {
@@ -38,6 +41,10 @@ function App() {
       } />
 
       <Route path="/Editbooking" element={<Editbooking />} />
+      <Route path="/Pendingbooking" element={<Pendingbooking />} />
+      <Route path="/Confirmedbooking" element={<Confirmedbooking />} />
+      <Route path="/Cancelledbooking" element={<Cancelledbooking />} />
+      <Route path="/Bookinghistory" element={<Bookinghistory />} />
       <Route path="/userprofile" element={
         <ProtectedRoute>
           <Userprofile />

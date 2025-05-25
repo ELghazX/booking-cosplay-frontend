@@ -1,13 +1,17 @@
 import { FaPhoneAlt, FaUser, FaTshirt, FaMoneyBillWave, FaClock, FaCalculator, FaChevronLeft, FaCheckCircle } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import Sidebar from "../Components/Sidebar";
 
 export default function EditBooking() {
   const navigate = useNavigate();
 
   return (
     <div className="flex min-h-screen bg-[#FFF8F5] font-sans text-sm">
+      <>
+      <Sidebar />
+      </>
       {/* Sidebar */}
-      <aside className="w-64 bg-[#FBD7CF] p-6 flex flex-col text-black">
+      {/* <aside className="w-64 bg-[#FBD7CF] p-6 flex flex-col text-black">
         <h1 className="text-[#D48DB3] font-bold text-xl mb-8 text-center">ChocoMintCos</h1>
         <div className="font-bold text-xs text-gray-600 uppercase mb-4">Dashboard</div>
         <nav className="space-y-4">
@@ -33,7 +37,7 @@ export default function EditBooking() {
             <span>Item</span>
           </div>
         </nav>
-      </aside>
+      </aside> */}
 
       {/* Main Content */}
       <main className="flex-1 p-10">
