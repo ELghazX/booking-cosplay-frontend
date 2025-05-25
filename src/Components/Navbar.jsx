@@ -34,7 +34,7 @@ function Navbar() {
               src={profileImg}
               alt="Profile"
               onClick={handleProfileClick}
-              className="w-12 h-12 rounded-full border-2 border-[#C599B6] cursor-pointer object-cover hover:shadow-lg transition-shadow"
+              className="w-12 h-12 rounded-full border-2 border-[#C599B6] cursor-pointer object-cover transition-shadow transition ease-in-out duration-300 shadow-[0_0_10px_#C599B6] hover:shadow-[0_0_40px_#C899B6] hover:scale-105"
             />
             {showMenu && (
               <div className="absolute right-0 mt-2 z-50">

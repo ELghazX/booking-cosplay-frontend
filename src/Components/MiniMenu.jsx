@@ -10,11 +10,9 @@ import {
 
 function MiniMenu() {
   const navigate = useNavigate();
-  const userName = localStorage.getItem("userName") || "User";
+  const userName = localStorage.getItem("name") || "User";
 
   const menuItems = [
-    { label: "Profile User", icon: <UserCircle size={20} />, path: "/profile" },
-    { label: "Riwayat", icon: <Clock3 size={20} />, path: "/riwayat" },
     { label: "Beranda", icon: <Home size={20} />, path: "/" },
     { label: "Koleksi", icon: <LayoutDashboard size={20} />, path: "/koleksi" },
     { label: "About", icon: <Info size={20} />, path: "/about" },
@@ -26,9 +24,11 @@ function MiniMenu() {
 
   const handleLogout = () => {
     localStorage.setItem("isLoggedIn", "false");
-    localStorage.removeItem("userRole");
-    localStorage.removeItem("userId");
-    localStorage.removeItem("userName");
+    localStorage.removeItem("role");
+    localStorage.removeItem("id");
+    localStorage.removeItem("name");
+    localStorage.removeItem("email");
+    localStorage.removeItem("phone");
     navigate("/");
   };
 

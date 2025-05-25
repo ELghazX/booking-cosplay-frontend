@@ -1,64 +1,80 @@
-import { useState } from "react";
-import {
-  LayoutDashboard,
-  PlusCircle,
-  Pencil,
-  Trash2,
-  LogOut,
-  Menu as MenuIcon,
-} from "lucide-react";
+import { FaClipboardList, FaCheckCircle, FaTimesCircle, FaHistory, FaBox } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 
-function Sidebar() {
-  const [isOpen, setIsOpen] = useState(true);
-
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const menuItems = [
-    { label: "Dashboard", icon: <LayoutDashboard size={20} />, path: "/admin/dashboard" },
-    { label: "Tambah Kostum", icon: <PlusCircle size={20} />, path: "/admin/tambah" },
-    { label: "Edit Kostum", icon: <Pencil size={20} />, path: "/admin/edit" },
-    { label: "Hapus Kostum", icon: <Trash2 size={20} />, path: "/admin/hapus" },
-  ];
-
+const Sidebar = () => {
   return (
-    <div
-      className={`h-screen bg-[#c598ad] text-white transition-all duration-300 flex flex-col ${
-        isOpen ? "w-64" : "w-15"
-      }`}
-    >
-      {/* Header */}
-      <div className="flex items-center justify-between px-4 py-4 border-b border-white/30">
-        {isOpen && <span className="ml-3">Admin Menu</span>}
-        <button onClick={toggleSidebar}>
-          <MenuIcon size={20} />
-        </button>
-      </div>
+    <div className="w-80 h-screen bg-[#F7CDBD] flex flex-col px-7 py-8">
+      <h1 className="text-2xl font-black text-[#B287B6] mb-10 text-center">ChocoMintCos</h1>
 
-      {/* Menu Items */}
-      <nav className="flex-1 mt-4 space-y-2">
-        {menuItems.map((item, index) => (
-          <a
-            key={index}
-            href={item.path}
-            className="flex items-center px-4 py-2 hover:bg-[#b2889b] transition-colors"
-          >
-            {item.icon}
-            {isOpen && <span className="ml-3">{item.label}</span>}
-          </a>
-        ))}
+      <nav className="flex flex-col gap-3 px-2">
+        {/* DASHBOARD */}
+        <p className="text-xl font-semibold text-black-600 uppercase mb-2">Dashboard</p>
+
+        <NavLink
+          to="/admin/pending"
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-2 rounded-md text-lg font-medium hover:scale-105 ${
+              isActive ? "bg-[#D5A8C3] text-white" : "text-black-700 hover:bg-[#f0bfb0]"
+            }`
+          }
+        >
+          <FaClipboardList />
+          Pending Booking
+        </NavLink>
+
+        <NavLink
+          to="/admin/confirmed"
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-2 rounded-md text-lg font-medium hover:scale-105 ${
+              isActive ? "bg-[#D5A8C3] text-white" : "text-black-700 hover:bg-[#f0bfb0]"
+            }`
+          }
+        >
+          <FaCheckCircle />
+          Confirmed Booking
+        </NavLink>
+
+        <NavLink
+          to="/admin/cancelled"
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-2 rounded-md text-lg font-medium hover:scale-105 ${
+              isActive ? "bg-[#D5A8C3] text-white" : "text-black-700 hover:bg-[#f0bfb0]"
+            }`
+          }
+        >
+          <FaTimesCircle />
+          Cancelled Booking
+        </NavLink>
+
+        <NavLink
+          to="/admin/history"
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-2 rounded-md text-lg font-medium hover:scale-105 ${
+              isActive ? "bg-[#D5A8C3] text-white" : "text-black-700 hover:bg-[#f0bfb0]"
+            }`
+          }
+        >
+          <FaHistory />
+          Booking History
+        </NavLink>
+
+        {/* MASTER DATA */}
+        <p className="text-xl font-semibold text-black-600 uppercase mt-6 mb-2">Master Data</p>
+
+        <NavLink
+          to="/admin/item"
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-2 rounded-md text-lg font-medium hover:scale-105 ${
+              isActive ? "bg-[#D5A8C3] text-white" : "text-black-700 hover:bg-[#f0bfb0]"
+            }`
+          }
+        >
+          <FaBox />
+          Item
+        </NavLink>
       </nav>
-
-      {/* Logout */}
-      <div className="p-4 border-t border-white/30 mt-auto">
-        <button className="flex items-center w-full hover:bg-[#b2889b] px-4 py-2 transition-colors">
-          <LogOut size={20} />
-          {isOpen && <span className="ml-3">Logout</span>}
-        </button>
-      </div>
     </div>
   );
-}
+};
 
 export default Sidebar;

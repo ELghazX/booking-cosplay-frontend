@@ -10,6 +10,7 @@ import Detail  from './pages/Detail';
 import Userprofile from './pages/Userprofile';
 import Admin from './pages/Admin';
 import Editbooking from './pages/Editbooking';
+import DetailBooking from './pages/DetailBooking';
 
 
 
@@ -30,6 +31,11 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/Userprofile" element={<Userprofile />} />
       <Route path="/detail-kostum/:id" element={<Detail />} />
+      <Route path="/detail-booking" element={
+        <ProtectedRoute>
+          <DetailBooking />
+        </ProtectedRoute>
+      } />
 
       <Route path="/Editbooking" element={<Editbooking />} />
       <Route path="/userprofile" element={

@@ -20,9 +20,11 @@ export default function Login() {
       const res = await api.post("/auth/login", form);
       if (res.data.status === true) {
         localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("userRole", res.data.data.role);
-        localStorage.setItem("userId", res.data.data.id);
-        localStorage.setItem("userName", res.data.data.name);
+        localStorage.setItem("role", res.data.data.role);
+        localStorage.setItem("id", res.data.data.id);
+        localStorage.setItem("name", res.data.data.name);
+        localStorage.setItem("email", res.data.data.email);
+        localStorage.setItem("phone", res.data.data.phone);
 
         if (res.data.data.role === "ADMIN") {
           alert("Login admin sukses!");
