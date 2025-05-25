@@ -33,7 +33,7 @@ export default function Home() {
       className="absolute h-4xl top-0 right-0 -z-10"
       alt=""
     />
-    <img src={bentuk2} className="absolute h-4xl top-189 left-0 -z-10" alt="" />
+    
     <div className="my-50 mx-[5%] flex flex-row items-center justify-between mb-70 ">
       <div className="">
         <p className="text-8xl m-0 mb-5 text-[#C599B6] font-bold">
@@ -53,7 +53,9 @@ export default function Home() {
         <CosplayCard key={cosplay.id} cosplay={cosplay} />
       ))}
     </div>
+    {/* <img src={bentuk2} className="absolute bot-0 left-0 -z-1" alt="" /> */}
     <Footer />
+    
   </>
 );
 }

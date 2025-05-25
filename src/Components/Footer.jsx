@@ -1,25 +1,10 @@
 function Footer() {
   return (
     <>
-        <div className="footer">
-            <div className="footer-logo">
-                <h1>ChocoMintCos</h1>
-            </div>
-            <div className="footer-menu">
-                <ul>
-                    <li><a href="#">Beranda</a></li>
-                    <li><a href="#">Kategori</a></li>
-                    <li><a href="#">About</a></li>
-                </ul>
-            </div>
-            <div className="footer-sosmed">
-                <h1>Follow Us</h1>
-                <ul>
-                    <li><a href="#">Instagram</a></li>
-                    <li><a href="#">Facebook</a></li>
-                    <li><a href="#">Twitter</a></li>
-                </ul>
-            </div>
+        <div className="mt-15 py-5 bottom-0 flex flex-col items-center justify-center bg-[#C599B6] text-[#FFF7F3]">
+            <p className="text-3xl font-bold">ChocoMintCos</p>
+            <p>© 2025 ChocoMintCos. All rights reserved.</p>
+            <p>Made with ❤️ by Kelompok 2</p>
         </div>
     </>
   );
