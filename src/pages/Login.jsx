@@ -1,9 +1,11 @@
+import { FaEnvelope, FaLock } from "react-icons/fa";
+import illustration from "../assets/Frame 33.png";
 import { useState } from "react";
 import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
 
-function Login() {
-  const [form, setForm] = useState({ email: "", password: "" });
+export default function Login() {
+const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -40,46 +42,52 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#FFF5F0]">
-      <div className="flex bg-[#F9C9B8] px-14 py-10 rounded-lg shadow-md items-center space-x-12">
-        <div className="bg-white p-6 rounded">
+    <div className="w-screen h-screen bg-[#FFF3EF] flex items-center justify-center">
+      <div className="w-[1466px] h-[796px] bg-[#FBD1C5] rounded-3xl shadow-2xl flex overflow-hidden">
+        {/* Kiri - Gambar/Ilustrasi */}
+        <div className="w-1/2 flex items-center justify-center">
           <img
-            src="/cosplay-logo.png"
-            alt="Cosplay Logo"
-            className="w-32 h-32 object-contain"
+            src={illustration}
+            alt="Illustration"
+            className="w-[80%] max-w-[600px]"
           />
         </div>
-        <form className="flex flex-col items-center w-72" onSubmit={handleSubmit}>
-          <h2 className="text-black font-bold text-xl mb-6 text-center">LOGIN</h2>
-          {error && <p className="text-red-500 mb-2">{error}</p>}
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            className="w-full mb-4 p-2 bg-white border-none rounded shadow-sm"
-            value={form.email}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            className="w-full mb-6 p-2 bg-white border-none rounded shadow-sm"
-            value={form.password}
-            onChange={handleChange}
-            required
-          />
-          <button
-            type="submit"
-            className="w-full bg-[#B679B1] text-white py-2 rounded-md hover:bg-[#a765a4]"
-          >
-            LOGIN
-          </button>
-        </form>
+
+        {/* Kanan - Form Login */}
+        <div className="w-1/2 flex flex-col justify-center px-14">
+          <h2 className="text-3xl font-bold text-black mb-8 text-center">LOGIN</h2>
+
+          <form className="space-y-6">
+            {/* Email */}
+            <div className="flex items-center bg-white px-4 py-3 rounded-md shadow-sm">
+              <FaEnvelope className="text-gray-400 mr-3" />
+              <input
+                type="email"
+                placeholder="email@gmail.com"
+                className="w-full bg-transparent outline-none text-sm placeholder-gray-400"
+              />
+            </div>
+
+            {/* Password */}
+            <div className="flex items-center bg-white px-4 py-3 rounded-md shadow-sm">
+              <FaLock className="text-gray-400 mr-3" />
+              <input
+                type="password"
+                placeholder="****************"
+                className="w-full bg-transparent outline-none text-sm placeholder-gray-400"
+              />
+            </div>
+
+            {/* Tombol */}
+            <button
+              type="submit"
+              className="w-full bg-[#C199B3] text-white font-semibold py-3 rounded-md hover:bg-[#b58fa6] transition"
+            >
+              LOGIN
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
 }
-
-export default Login;
