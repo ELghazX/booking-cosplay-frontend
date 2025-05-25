@@ -10,7 +10,16 @@ import Detail  from './pages/Detail';
 import Userprofile from './pages/Userprofile';
 import Admin from './pages/Admin';
 
+
 function App() {
+  function ProtectedRoute({ children }) {
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    if (!isLoggedIn) {
+      return <Navigate to="/login" />;
+    }
+    return children;
+  }
+
   return (
     <Routes>
       <Route path="/" element={<Home />} />
@@ -19,7 +28,11 @@ function App() {
       <Route path="/about" element={<About />} />
       <Route path="/login" element={<Login />} />
       <Route path="/Regis" element={<Register />} />
-      <Route path="/Userprofile" element={<Userprofile />} />
+      <Route path="/userprofile" element={
+        <ProtectedRoute>
+          <Userprofile />
+        </ProtectedRoute>
+      } />
       <Route path="/register" element={<Register />} />
       <Route path="/admin" element={<Admin />} />
       {/* Tambahkan route lainnya sesuai kebutuhan */}
