@@ -50,7 +50,7 @@ export default function Detail() {
                             {/* Image Section */}
                             <div className="md:w-1/2">
                                 <img
-                                src={item.imageUrl || rijal}
+                                src={(`/img/${item.imageUrl}`)}
                                 alt={item.name}
                                 className="w-full rounded-lg shadow-lg"
                                 onError={(e) => {
@@ -108,7 +108,7 @@ export default function Detail() {
                                 {/* Image Section */}
                                 <div className="md:w-1/2">
                                     <img
-                                        src={item.imageUrl || rijal}
+                                        src={(`/img/${item.imageUrl}`)}
                                         alt={item.name}
                                         className="w-full rounded-lg shadow-lg"
                                         onError={(e) => {
