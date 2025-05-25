@@ -80,7 +80,7 @@ export default function Koleksi() {
                   name: item.name,
                   harga: `Rp. ${item.price.toLocaleString('id-ID')}`,
                   ukuran: "M", // idk where this goes
-                  url: rijal, // picture for later once backend exists
+                  url: item.imageUrl ? `/img/${item.imageUrl}` : rijal, // fallback to rijal if imageUrl is missing
                 }}
               />
             ))}
