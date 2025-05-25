@@ -5,7 +5,7 @@ import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -57,13 +57,21 @@ const [form, setForm] = useState({ email: "", password: "" });
         <div className="w-1/2 flex flex-col justify-center px-14">
           <h2 className="text-3xl font-bold text-black mb-8 text-center">LOGIN</h2>
 
-          <form className="space-y-6">
+          {error && (
+            <div className="text-red-600 text-sm mb-4 text-center">{error}</div>
+          )}
+
+          <form className="space-y-6" onSubmit={handleSubmit}>
             {/* Email */}
             <div className="flex items-center bg-white px-4 py-3 rounded-md shadow-sm">
               <FaEnvelope className="text-gray-400 mr-3" />
               <input
                 type="email"
+                name="email"
                 placeholder="email@gmail.com"
+                value={form.email}
+                onChange={handleChange}
+                required
                 className="w-full bg-transparent outline-none text-sm placeholder-gray-400"
               />
             </div>
@@ -73,7 +81,11 @@ const [form, setForm] = useState({ email: "", password: "" });
               <FaLock className="text-gray-400 mr-3" />
               <input
                 type="password"
+                name="password"
                 placeholder="****************"
+                value={form.password}
+                onChange={handleChange}
+                required
                 className="w-full bg-transparent outline-none text-sm placeholder-gray-400"
               />
             </div>

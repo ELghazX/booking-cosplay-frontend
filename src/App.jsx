@@ -17,7 +17,7 @@ function App() {
   function ProtectedRoute({ children }) {
     const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
     if (!isLoggedIn) {
-      return <Navigate to="/login" />;
+      return <Navigate to="/" />;
     }
     return children;
   }
@@ -25,12 +25,9 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/detail-produk" element={<Detail />} />
-      {/* <Route path="/profil/:id" element={<Profile />} /> */}
       <Route path="/koleksi" element={<Koleksi />} />
       <Route path="/about" element={<About />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/Regis" element={<Register />} />
       <Route path="/Userprofile" element={<Userprofile />} />
       <Route path="/detail-kostum/:id" element={<Detail />} />
 
@@ -42,7 +39,6 @@ function App() {
       } />
       <Route path="/register" element={<Register />} />
       <Route path="/admin" element={<Admin />} />
-      {/* Tambahkan route lainnya sesuai kebutuhan */}
       <Route path="*" element={<h1>404 Not Found</h1>} />
     </Routes>
   )
