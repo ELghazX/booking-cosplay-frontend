@@ -4,7 +4,7 @@ import Footer from "../Components/Footer";
 import Searching from "../Components/Searching";
 import CosplayCard from "../Components/CosplayCard";
 import api from "../api/axios";
-import rijal from "../assets/rijal tidur.jpg";
+import rijal from "/img/rijal tidur.jpg";
 
 export default function Koleksi() {
   const [items, setItems] = useState([]);

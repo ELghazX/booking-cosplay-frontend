@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import rijal from "/img/rijal tidur.jpg";
 
 const toTitleCase = (str) => {
   if (!str) return ""; // Handle empty/null case
@@ -17,7 +18,7 @@ function CosplayCard({ cosplay }) {
     return (
       <div className="flex flex-col h-[400px] w-[225px] bg-[#C599B6] rounded-3xl shadow-[0_0_10px_#C599B6] transition ease-in-out duration-350 hover:shadow-[0_0_40px_#C899B6] hover:scale-105" onClick={handleClick}>
         <div className="h-2/3">
-          <img src={cosplay.url} alt={cosplay.name} className="w-full h-full object-cover rounded-t-3xl"/>
+          <img src={cosplay.url} alt={cosplay.name} onError={(e) => {e.target.src = rijal}}  className="w-full h-full object-cover rounded-t-3xl"/>
         </div>
         <div className="h-1/3 flex flex-col justify-center items-center">
           <h3 className="text-2xl font-semibold text-white mb-2 ">
@@ -37,7 +38,7 @@ function CosplayCard({ cosplay }) {
     return (
       <div className="flex flex-col h-[400px] w-[225px] bg-[#C599B6] rounded-3xl shadow-[0_0_10px_#C599B6] transition ease-in-out duration-350 hover:shadow-[0_0_40px_#C899B6] hover:scale-105" onClick={handleClick}>
         <div className="h-2/3">
-          <img src={cosplay.url} alt={cosplay.name} className="w-full h-full object-cover rounded-t-3xl"/>
+          <img src={cosplay.url} alt={cosplay.name} onError={(e) => {e.target.src = rijal}} className="w-full h-full object-cover rounded-t-3xl"/>
         </div>
         <div className="h-1/3 flex flex-col justify-center items-center min-w-0 px-4">
           <h3 className="text-2xl font-semibold text-white mb-2 truncate w-full text-center">

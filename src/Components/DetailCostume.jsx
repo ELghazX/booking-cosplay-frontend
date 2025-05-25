@@ -1,4 +1,4 @@
-import rijal from "../assets/rijal tidur.jpg";
+import rijal from "/img/rijal tidur.jpg";
 
 const DetailCostume = ({ item }) => {
   return (
