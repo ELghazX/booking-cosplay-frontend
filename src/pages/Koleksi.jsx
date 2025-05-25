@@ -46,7 +46,8 @@ export default function Koleksi() {
   const handleSearch = ({ category, keyword }) => {
     console.log("Kategori:", category);
     console.log("Kata kunci:", keyword);
-    // Implement search later
+
+
   };
 
   return (
@@ -78,8 +79,7 @@ export default function Koleksi() {
                   id: item.id,
                   kategori: item.category.toLowerCase(),
                   name: item.name,
-                  harga: `Rp. ${item.price.toLocaleString('id-ID')}`,
-                  ukuran: "M", // idk where this goes
+                  harga: item.price,
                   url: item.imageUrl ? `/img/${item.imageUrl}` : rijal, // fallback to rijal if imageUrl is missing
                 }}
               />
