@@ -1,50 +1,48 @@
 import { FaEnvelope, FaLock } from "react-icons/fa";
-import illustration from "../assets/Frame 33.png"; // Ganti sesuai path gambar kamu
+import illustration from "../assets/Frame 33.png";
 
-const Login = () => {
+export default function Login() {
   return (
-    <div className="min-h-screen bg-[#FFF5F2] flex items-center justify-center">
-      <div
-        className="bg-[#FACCC8] rounded-3xl shadow-xl flex flex-col md:flex-row items-center justify-between overflow-hidden"
-        style={{ width: "1466px", height: "796px" }}
-      >
-        {/* Left - Image */}
-        <div className="w-full md:w-1/2 flex justify-center items-center h-full">
+    <div className="w-screen h-screen bg-[#FFF3EF] flex items-center justify-center">
+      <div className="w-[1466px] h-[796px] bg-[#FBD1C5] rounded-3xl shadow-2xl flex overflow-hidden">
+        {/* Kiri - Gambar/Ilustrasi */}
+        <div className="w-1/2 flex items-center justify-center">
           <img
             src={illustration}
             alt="Illustration"
-            className="w-[80%] max-w-[400px]"
+            className="w-[80%] max-w-[600px]"
           />
         </div>
 
-        {/* Right - Form */}
-        <div className="w-full md:w-1/2 px-16">
-          <h2 className="text-3xl font-bold text-center mb-8">LOGIN</h2>
+        {/* Kanan - Form Login */}
+        <div className="w-1/2 flex flex-col justify-center px-14">
+          <h2 className="text-3xl font-bold text-black mb-8 text-center">LOGIN</h2>
+
           <form className="space-y-6">
             {/* Email */}
-            <div className="relative">
-              <FaEnvelope className="absolute top-3 left-3 text-gray-400" />
+            <div className="flex items-center bg-white px-4 py-3 rounded-md shadow-sm">
+              <FaEnvelope className="text-gray-400 mr-3" />
               <input
                 type="email"
                 placeholder="email@gmail.com"
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-300 bg-white"
+                className="w-full bg-transparent outline-none text-sm placeholder-gray-400"
               />
             </div>
 
             {/* Password */}
-            <div className="relative">
-              <FaLock className="absolute top-3 left-3 text-gray-400" />
+            <div className="flex items-center bg-white px-4 py-3 rounded-md shadow-sm">
+              <FaLock className="text-gray-400 mr-3" />
               <input
                 type="password"
-                placeholder="••••••••"
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-300 bg-white"
+                placeholder="****************"
+                className="w-full bg-transparent outline-none text-sm placeholder-gray-400"
               />
             </div>
 
-            {/* Button */}
+            {/* Tombol */}
             <button
               type="submit"
-              className="w-full bg-[#C99EBF] text-white font-semibold py-2 rounded-md hover:bg-[#b987ac] transition"
+              className="w-full bg-[#C199B3] text-white font-semibold py-3 rounded-md hover:bg-[#b58fa6] transition"
             >
               LOGIN
             </button>
@@ -53,6 +51,4 @@ const Login = () => {
       </div>
     </div>
   );
-};
-
-export default Login;
+}
