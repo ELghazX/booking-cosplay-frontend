@@ -1,88 +1,159 @@
-import Navbar from "../Components/Navbar";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import rijal from "../assets/rijal tidur.jpg"; // Ganti dengan path gambar yang sesuai
+import Navbar from "../Components/Navbar";
+import api from "../api/axios";
+
+import rijal from "../assets/rijal tidur.jpg";
 
 export default function Detail() {
-    const { id } = useParams();
+  const { id } = useParams();
+  const [item, setItem] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    // Data static contoh
-    const data = [
-        {id:1, kategori:"accessories", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:2, kategori:"item", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:3, kategori:"accessories", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:4, kategori:"accessories", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:5, kategori:"accessories", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:6, kategori:"item", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:7, kategori:"item", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:8, kategori:"accessories", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:9, kategori:"item", name: "Sakura", harga: "Rp. 250.000", ukuran: "L", url: "https://example.com/sakura.jpg"},
-        {id:10, kategori:"accessories", name: "Sasuke", harga: "Rp. 300.000", ukuran: "XL", url: "https://example.com/sasuke.jpg"},
-        {id:11, kategori:"item", name: "Kakashi", harga: "Rp. 350.000", ukuran: "XXL", url: "https://example.com/kakashi.jpg"},
-        {id:12, kategori:"accessories", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:22, kategori:"item", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:13, kategori:"accessories", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:14, kategori:"accessories", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:15, kategori:"accessories", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:16, kategori:"item", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:17, kategori:"item", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:18, kategori:"accessories", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:19, kategori:"item", name: "Sakura", harga: "Rp. 250.000", ukuran: "L", url: "https://example.com/sakura.jpg"},
-        {id:20, kategori:"accessories", name: "Sasuke", harga: "Rp. 300.000", ukuran: "XL", url: "https://example.com/sasuke.jpg"},
-        {id:21, kategori:"item", name: "Kakashi", harga: "Rp. 350.000", ukuran: "XXL", url: "https://example.com/kakashi.jpg"}, 
-        {id:22, kategori:"item", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:23, kategori:"accessories", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:24, kategori:"accessories", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:25, kategori:"accessories", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:26, kategori:"item", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:27, kategori:"item", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:28, kategori:"accessories", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:29, kategori:"item", name: "Sakura", harga: "Rp. 250.000", ukuran: "L", url: "https://example.com/sakura.jpg"},
-        {id:30, kategori:"accessories", name: "Sasuke", harga: "Rp. 300.000", ukuran: "XL", url: "https://example.com/sasuke.jpg"},
-        {id:31, kategori:"item", name: "Kakashi", harga: "Rp. 350.000", ukuran: "XXL", url: "https://example.com/kakashi.jpg"},
-        {id:32, kategori:"accessories", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:32, kategori:"item", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:33, kategori:"accessories", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:34, kategori:"accessories", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:35, kategori:"accessories", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:36, kategori:"item", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:37, kategori:"item", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:38, kategori:"accessories", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-        {id:39, kategori:"item", name: "Sakura", harga: "Rp. 250.000", ukuran: "L", url: "https://example.com/sakura.jpg"},
-        {id:40, kategori:"accessories", name: "Sasuke", harga: "Rp. 300.000", ukuran: "XL", url: "https://example.com/sasuke.jpg"},
-        {id:41, kategori:"item", name: "Kakashi", harga: "Rp. 350.000", ukuran: "XXL", url: "https://example.com/kakashi.jpg"},
-    ];
+  useEffect(() => {
+    const fetchItemDetails = async () => {
+      try {
+        const response = await api.get(`/items/${id}`);
+        const data = response.data;
 
-    // Cari data sesuai id dari parameter
-    const cosplay = data.find(item => String(item.id) === String(id));
+        if (data.status) {
+          setItem(data.data);
+          setError(null);
+        } else {
+          setError(data.message || "Item tidak ditemukan");
+          setItem(null);
+        }
+      } catch (err) {
+        setError(err.response?.data?.message || "Terjadi kesalahan");
+        setItem(null);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    return (
+    fetchItemDetails();
+  }, [id]);
+
+    if (item && item.category === "accessory") {
+        return (
         <>
-            <Navbar />
-            <div>
-                
-            </div>
-            <div className="p-8">
-                {cosplay ? (
-                    <div className="flex flex-row justify-self-center">
-                        <div>
-                            <img src={cosplay.url} alt={cosplay.name} className="w-64 mb-4" />
+        <Navbar />
+            <div className="p-8 min-h-screen">
+                {isLoading ? (
+                <p className="text-center">Memuat detail item...</p>
+                ) : error ? (
+                <p className="text-red-500 text-center">{error}</p>
+                ) : item ? (
+                    <div className="max-w-4xl mx-auto">
+                        <div className="flex flex-col md:flex-row gap-8">
+                            {/* Image Section */}
+                            <div className="md:w-1/2">
+                                <img
+                                src={item.imageUrl || rijal}
+                                alt={item.name}
+                                className="w-full rounded-lg shadow-lg"
+                                onError={(e) => {
+                                    e.target.src = rijal; // Fallback to local image if URL fails
+                                }}
+                                />
+                            </div>
+                        
+                        {/* Details Section */}
+                            <div className="md:w-1/2 space-y-4">
+                                <h1 className="text-3xl font-bold">{item.name}</h1>
+                                
+                                <div className="space-y-2">
+                                    <p className="text-lg">
+                                        <span className="font-semibold">Kategori:</span>{" "}
+                                        {item.category}
+                                    </p>
+                                    <p className="text-lg">
+                                        <span className="font-semibold">Harga per Hari:</span>{" "}
+                                        {new Intl.NumberFormat("id-ID", {
+                                        style: "currency",
+                                        currency: "IDR",
+                                        }).format(item.pricePerDay)}
+                                    </p>
+                                    <p className="text-lg">
+                                        <span className="font-semibold">Tipe:</span> {item.type}
+                                    </p>
+                                    {item.deleted && (
+                                        <p className="text-red-500">Item ini telah dihapus</p>
+                                    )}
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <h1 className="text-2xl font-bold mb-4">{cosplay.name}</h1>
-                            <p>Kategori: {cosplay.kategori}</p>
-                            <p>Harga: {cosplay.harga}</p>
-                            <p>Ukuran: {cosplay.ukuran}</p>
-                        </div>
-                        {/* <h1 className="text-2xl font-bold mb-4">{cosplay.name}</h1>
-                        <img src={cosplay.url} alt={cosplay.name} className="w-64 mb-4" />
-                        <p>Kategori: {cosplay.kategori}</p>
-                        <p>Harga: {cosplay.harga}</p>
-                        <p>Ukuran: {cosplay.ukuran}</p> */}
                     </div>
                 ) : (
-                    <p>Data tidak ditemukan.</p>
+                <p className="text-center">Data tidak ditemukan</p>
                 )}
             </div>
         </>
-    );
+        );
+    }
+
+    else {
+        return (
+            <>
+                <Navbar />
+                <div className="p-8 min-h-screen">
+                    {isLoading ? (
+                        <p className="text-center">Memuat detail item...</p>
+                    ) : error ? (
+                        <p className="text-red-500 text-center">{error}</p>
+                    ) : item ? (
+                        <div className="max-w-4xl mx-auto">
+                            <div className="flex flex-col md:flex-row gap-8">
+                                {/* Image Section */}
+                                <div className="md:w-1/2">
+                                    <img
+                                        src={item.imageUrl || rijal}
+                                        alt={item.name}
+                                        className="w-full rounded-lg shadow-lg"
+                                        onError={(e) => {
+                                            e.target.src = rijal; // Fallback to local image if URL fails
+                                        }}
+                                    />
+                                </div>
+
+                                {/* Details Section */}
+                                <div className="md:w-1/2 space-y-4">
+                                    <h1 className="text-3xl font-bold">{item.name}</h1>
+
+                                    <div className="space-y-2">
+                                        <p className="text-lg">
+                                            <span className="font-semibold">Kategori:</span>{" "}
+                                            {item.category}
+                                        </p>
+                                        <p className="text-lg">
+                                            <span className="font-semibold">Harga per Hari:</span>{" "}
+                                            {new Intl.NumberFormat("id-ID", {
+                                                style: "currency",
+                                                currency: "IDR",
+                                            }).format(item.pricePerDay)}
+                                        </p>
+                                        <p className="text-lg">
+                                            <span className="font-semibold">Size:</span> {item.size}
+                                        </p>
+                                        <p className="text-lg">
+                                            <span className="font-semibold">Character:</span> {item.characterName}
+                                        </p>
+                                        <p className="text-lg">
+                                            <span className="font-semibold">Gender:</span> {item.gender}
+                                        </p>
+                                        {item.deleted && (
+                                            <p className="text-red-500">Item ini telah dihapus</p>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        <p className="text-center">Data tidak ditemukan</p>
+                    )}
+                </div>
+            </>
+        );
+    }
 }

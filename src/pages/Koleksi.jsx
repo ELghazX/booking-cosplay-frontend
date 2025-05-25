@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import rijal from "../assets/rijal tidur.jpg";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import Searching from "../Components/Searching";
 import CosplayCard from "../Components/CosplayCard";
 import api from "../api/axios";
+import rijal from "../assets/rijal tidur.jpg";
 
 export default function Koleksi() {
   const [items, setItems] = useState([]);
