@@ -3,6 +3,7 @@ import illustration from "../assets/foto.png";
 import api from "../api/axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2'
 
 function Regis() {
     const [form, setForm] = useState({ name: "", email: "", phone: "", password: "" });
@@ -14,18 +15,30 @@ function Regis() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const res = await api.post("/auth/register", form);
         try {
-            const res = await api.post("/auth/register", form);
-            // Gunakan == true supaya bisa string/bool
             if (res.data.status == true) {
-                alert("Register sukses! Silakan login.");
                 setForm({ name: "", email: "", phone: "", password: "" }); 
+                Swal.fire({
+                    title: "Berhasil!",
+                    text: res.data.message,
+                    icon: "success"
+                });
+
                 navigate("/login");
             } else {
-                alert(res.data.message || "Register gagal!");
+                Swal.fire({
+                    title: "Gagal!",
+                    text: res.data.message,
+                    icon: "error"
+                });
             }
         } catch (err) {
-            alert("Register gagal! " + (err.response?.data?.message || err.message));
+            Swal.fire({
+                title: "Error!",
+                text: err?.response?.data?.message || err.message || "Terjadi kesalahan.",
+                icon: "error"
+            });
         }
     };
 

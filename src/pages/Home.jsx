@@ -34,7 +34,7 @@ export default function Home() {
       alt=""
     />
     
-    <div className="my-50 mx-[5%] flex flex-row items-center justify-between mb-70 ">
+    <div className="h-screen pb-10 mx-[5%] flex flex-row items-center justify-between">
       <div className="">
         <p className="text-8xl m-0 mb-5 text-[#C599B6] font-bold">
           Jadilah Apa Yang Kamu Inginkan!!!
@@ -47,7 +47,7 @@ export default function Home() {
       </div>
       <img src={foto} alt="" className="h-2xl" />
     </div>
-    <p className="px-[5%] text-7xl text-[#C599B6] font-bold mt-50">Koleksi</p>
+    <p className="px-[5%] text-7xl text-[#C599B6] font-bold">Koleksi</p>
     <div className="grid grid-flow-col auto-cols-max gap-4 place-content-left md:auto-cols-min overflow-x-auto pt-15 mx-[5%] py-10">
       {card.map((cosplay) => (
         <CosplayCard key={cosplay.id} cosplay={cosplay} />

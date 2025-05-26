@@ -33,6 +33,7 @@ function App() {
       <Route path="/koleksi" element={<Koleksi />} />
       <Route path="/about" element={<About />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/riwayat" element={<Login />} />
       <Route path="/Userprofile" element={<Userprofile />} />
       <Route path="/detail-kostum/:id" element={<Detail />} />
       <Route path="/detail-booking" element={
