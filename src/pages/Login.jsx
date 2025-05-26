@@ -3,6 +3,7 @@ import illustration from "../assets/Frame 33.png";
 import { useState } from "react";
 import api from "../api/axios";
 import { useNavigate, Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -44,18 +45,34 @@ export default function Login() {
         localStorage.setItem("phone", res.data.data.phone);
 
         if (res.data.data.role === "ADMIN") {
-          alert("Login admin sukses!");
+          Swal.fire({
+            title: "Berhasil!",
+            text: res.data.message,
+            icon: "success"
+          });
           navigate("/admin");
         } else {
-          alert("Login user sukses!");
+          Swal.fire({
+            title: "Berhasil!",
+            text: res.data.message,
+            icon: "success"
+          });
           navigate("/koleksi");
         }
       } else {
-        setApiError(res.data.message || "Login gagal!");
+        Swal.fire({
+            title: "Gagal!",
+            text: res.data.message,
+            icon: "error"
+          });
         localStorage.setItem("isLoggedIn", "false");
       }
     } catch (err) {
-      setApiError(err.response?.data?.message || "Login gagal! " + err.message);
+      Swal.fire({
+            title: "Error!",
+            text: err.response?.data?.message || "Terjadi kesalahan saat login",
+            icon: "error"
+          });
     }
   };
 
@@ -75,10 +92,6 @@ export default function Login() {
         <div className="w-1/2 p-10 flex flex-col justify-center ml-8">
           <h2 className="text-3xl font-bold mb-8 text-center">LOGIN</h2>
           <form className="space-y-3" onSubmit={handleSubmit}>
-            {/* Add error message display */}
-            <div className="text-red-500 text-sm text-center min-h-[20px]">
-              {apiError || ""}
-            </div>
             
             <div>
               <label className="text-sm font-medium">Email</label>

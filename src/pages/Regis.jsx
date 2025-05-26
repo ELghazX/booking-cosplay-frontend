@@ -1,51 +1,64 @@
 import { useState } from "react";
 import api from "../api/axios";
 import { useNavigate, Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function Regis() {
-  const [form, setForm] = useState({ name: "", email: "", phone: "", password: "" });
-  const [errors, setErrors] = useState({});
-  const [apiError, setApiError] = useState("");
-  const navigate = useNavigate();
+    const [form, setForm] = useState({ name: "", email: "", phone: "", password: "" });
+    const [errors, setErrors] = useState({});
+    const [apiError, setApiError] = useState("");
+    const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-    setErrors(prev => ({ ...prev, [e.target.name]: "" }));
-  };
+    const handleChange = (e) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
+        setErrors(prev => ({ ...prev, [e.target.name]: "" }));
+    };
 
-  const validateForm = () => {
-    const newErrors = {};
-    if (!form.name.trim()) newErrors.name = "Nama lengkap harus diisi";
-    if (!form.email.trim()) newErrors.email = "Email harus diisi";
-    if (!form.phone.trim()) newErrors.phone = "Nomor telepon harus diisi";
-    if (!form.password.trim()) newErrors.password = "Password harus diisi";
-    return newErrors;
-  };
+    const validateForm = () => {
+        const newErrors = {};
+        if (!form.name.trim()) newErrors.name = "Nama lengkap harus diisi";
+        if (!form.email.trim()) newErrors.email = "Email harus diisi";
+        if (!form.phone.trim()) newErrors.phone = "Nomor telepon harus diisi";
+        if (!form.password.trim()) newErrors.password = "Password harus diisi";
+        return newErrors;
+    };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const validationErrors = validateForm();
-    
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
-    
-    setErrors({});
-    setApiError("");
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const validationErrors = validateForm();
+        
+        if (Object.keys(validationErrors).length > 0) {
+        setErrors(validationErrors);
+        return;
+        }
+        
+        setErrors({});
+        setApiError("");
+        try {
+        const res = await api.post("/auth/register", form);
+        if (res.data.status === true) {
+            Swal.fire({
+                title: "Berhasil!",
+                text: res.data.message,
+                icon: "success"
+            });
+            navigate("/login");
+        } else {
+            Swal.fire({
+                title: "Gagal!",
+                text: res.data.message,
+                icon: "error"
+            });
+        }
+        } catch (err) {
+        Swal.fire({
+                title: "Gagal!",
+                text: err.response?.data?.message || "Terjadi kesalahan saat mendaftar",
+                icon: "error"
+            });
+        }
+    };
 
-    try {
-      const res = await api.post("/auth/register", form);
-      if (res.data.status === true) {
-        alert("Register sukses! Silakan login.");
-        navigate("/login");
-      } else {
-        setApiError(res.data.message || "Register gagal!");
-      }
-    } catch (err) {
-      setApiError(err.response?.data?.message || "Register gagal! " + err.message);
-    }
-  };
     return (
     <div className="min-h-screen bg-[#FFF7F3] flex items-center justify-center">
         <div className="bg-[#FAD0C4] rounded-2xl shadow-lg flex overflow-hidden p-6">
@@ -53,8 +66,6 @@ export default function Regis() {
             <div className="w-1/2 p-6 flex flex-col justify-center mr-12">
             <h2 className="text-3xl font-bold mb-8 text-center">REGISTER</h2>
             <form className="space-y-3" onSubmit={handleSubmit}>
-                {apiError && <div className="text-red-500 text-sm text-center">{apiError}</div>}
-
                 <div>
                 <label className="text-sm font-medium">Nama Lengkap</label>
                 <div className="mt-1 relative">
@@ -162,4 +173,3 @@ export default function Regis() {
         </div>
     );
 }
-export default Regis;
