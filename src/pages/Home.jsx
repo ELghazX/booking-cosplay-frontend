@@ -1,5 +1,5 @@
-import { useState } from "react";
-import ReactDOM from "react-dom/client";
+import { useState, useEffect } from "react";
+import api from "../api/axios"; // Make sure you have this import
 import Navbar from "../Components/Navbar";
 import ButtonLink from "../Components/ButtonLink";
 import foto from "../assets/Group 8.png";
@@ -10,20 +10,38 @@ import Footer from "../Components/Footer";
 import rijal from "../assets/rijal tidur.jpg";
 
 export default function Home() {
-  
-  const card = [
-      {id:1, kategori:"accessories", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-      {id:2, kategori:"item", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-      {id:3, kategori:"accessories", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-      {id:4, kategori:"accessories", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-      {id:5, kategori:"accessories", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-      {id:6, kategori:"item", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-      {id:7, kategori:"item", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-      {id:8, kategori:"accessories", name: "Naruto", harga: "Rp. 200.000", ukuran: "M", url: rijal},
-      {id:9, kategori:"item", name: "Sakura", harga: "Rp. 250.000", ukuran: "L", url: "https://example.com/sakura.jpg"},
-      {id:10, kategori:"accessories", name: "Sasuke", harga: "Rp. 300.000", ukuran: "XL", url: "https://example.com/sasuke.jpg"},
-      {id:11, kategori:"item", name: "Kakashi", harga: "Rp. 350.000", ukuran: "XXL", url: "https://example.com/kakashi.jpg"},
-    ]
+  const [card, setCard] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const validateImageUrl = (imageUrl) => {
+    if (!imageUrl) return rijal;
+    const isValidFormat = /\.(jpe?g|png|webp)$/i.test(imageUrl);
+    return isValidFormat ? `/img/${imageUrl}` : rijal;
+  };
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const response = await api.get('/items');
+        if (response.data.status) {
+          const itemsData = response.data.data || [];
+          setCard(itemsData);
+          setError(null);
+        } else {
+          setCard([]);
+          setError(response.data.message || "Item masih kosong");
+        }
+      } catch (err) {
+        setError(err.response?.data?.message || "Terjadi kesalahan");
+        setCard([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchItems();
+  }, []);
 
   return (
   <>
@@ -48,11 +66,27 @@ export default function Home() {
       <img src={foto} alt="" className="h-2xl" />
     </div>
     <p className="px-[5%] text-7xl text-[#C599B6] font-bold mt-50">Koleksi</p>
-    <div className="grid grid-flow-col auto-cols-max gap-4 place-content-left md:auto-cols-min overflow-x-auto pt-15 mx-[5%] py-10">
-      {card.map((cosplay) => (
-        <CosplayCard key={cosplay.id} cosplay={cosplay} />
-      ))}
-    </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-[5%] py-10">
+        {isLoading ? (
+          <p className="text-center text-3xl text-[#C599B6]">Loading...</p>
+        ) : error ? (
+          <p className="text-center text-3xl text-red-500">{error}</p>
+        ) : card.length > 0 ? (
+          card.map((item) => (
+            <CosplayCard
+              key={item.id}
+              cosplay={{
+                ...item,
+                url: validateImageUrl(item.imageUrl),
+                harga: item.price,
+                kategori: item.category
+              }}
+            />
+          ))
+        ) : (
+          <p className="text-center text-3xl text-[#C599B6]">Tidak ada item tersedia</p>
+        )}
+      </div>
     <Footer />
   </>
 );
