@@ -9,7 +9,7 @@ import Register from './pages/Regis';
 import Detail  from './pages/Detail';
 import Userprofile from './pages/Userprofile';
 import Admin from './pages/Admin';
-
+import Riwayat from './pages/Riwayat';
 
 function App() {
   function ProtectedRoute({ children }) {
@@ -28,6 +28,11 @@ function App() {
       <Route path="/about" element={<About />} />
       <Route path="/login" element={<Login />} />
       <Route path="/Regis" element={<Register />} />
+      <Route path="/riwayat" element={
+        <ProtectedRoute>
+          <Riwayat />
+        </ProtectedRoute>
+      } />
       <Route path="/userprofile" element={
         <ProtectedRoute>
           <Userprofile />
