@@ -17,6 +17,9 @@ import Confirmedbooking from './pages/Confirmedbooking';
 import Cancelledbooking from './pages/Cancelledbooking';
 import Bookinghistory from './pages/Bookinghistory';
 import Item from './pages/Item';
+import Tambahkostum from './pages/Tambahkostum';
+import Ubahkostum from './pages/Ubahkostum';
+import Tambahaksesoris from './pages/Tambahaksesoris';
 
 function App() {
   function ProtectedRoute({ children }) {
@@ -60,6 +63,9 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/admin" element={<Admin />} />
       {/* Tambahkan route lainnya sesuai kebutuhan */}
+      <Route path="/Tambahkostum" element={<Tambahkostum />} />
+      <Route path="/Ubahkostum" element={<Ubahkostum />} />
+      <Route path="/Tambahaksesoris" element={<Tambahaksesoris />} />
       <Route path="*" element={<h1>404 Not Found</h1>} />
     </Routes>
   )
