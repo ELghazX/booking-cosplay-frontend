@@ -33,13 +33,6 @@ function Searching({ onSearch }) {
         onChange={(e) => setKeyword(e.target.value)}
         className="flex-1 rounded-md px-4 py-2 border border-[#c598ad] focus:outline-none focus:ring-2 focus:ring-[#c598ad]"
       />
-
-      <button
-        onClick={() => onSearch({ category, keyword })}
-        className="flex flex-row gap-2 bg-[#c598ad] text-white p-2 rounded-md hover:bg-[#b2889b] font-bold items-center transition-colors duration-200"
-      >
-        Search <Search size={16} />
-      </button>
     </div>
   );
 }
