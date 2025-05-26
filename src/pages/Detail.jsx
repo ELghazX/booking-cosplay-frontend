@@ -38,7 +38,7 @@ export default function Detail() {
   return (
     <>
       <Navbar />
-      <div className="p-8 min-h-screen">
+      <div className="p-8 flex items-center justify-center">
         {isLoading ? (
           <p className="text-center">Memuat detail item...</p>
         ) : error ? (
