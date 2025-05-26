@@ -9,6 +9,7 @@ import Register from './pages/Regis';
 import Detail  from './pages/Detail';
 import Userprofile from './pages/Userprofile';
 import Admin from './pages/Admin';
+import Riwayat from './pages/Riwayat';
 import Editbooking from './pages/Editbooking';
 import DetailBooking from './pages/DetailBooking';
 import Pendingbooking from './pages/Pendingbooking';
@@ -16,7 +17,6 @@ import Confirmedbooking from './pages/Confirmedbooking';
 import Cancelledbooking from './pages/Cancelledbooking';
 import Bookinghistory from './pages/Bookinghistory';
 import Item from './pages/Item';
-
 
 function App() {
   function ProtectedRoute({ children }) {
@@ -33,7 +33,12 @@ function App() {
       <Route path="/koleksi" element={<Koleksi />} />
       <Route path="/about" element={<About />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/riwayat" element={<Login />} />
+      <Route path="/Regis" element={<Register />} />
+      <Route path="/riwayat" element={
+        <ProtectedRoute>
+          <Riwayat />
+        </ProtectedRoute>
+      } />
       <Route path="/Userprofile" element={<Userprofile />} />
       <Route path="/detail-kostum/:id" element={<Detail />} />
       <Route path="/detail-booking" element={
@@ -41,7 +46,6 @@ function App() {
           <DetailBooking />
         </ProtectedRoute>
       } />
-
       <Route path="/Editbooking" element={<Editbooking />} />
       <Route path="/Pendingbooking" element={<Pendingbooking />} />
       <Route path="/Confirmedbooking" element={<Confirmedbooking />} />
@@ -55,6 +59,7 @@ function App() {
       } />
       <Route path="/register" element={<Register />} />
       <Route path="/admin" element={<Admin />} />
+      {/* Tambahkan route lainnya sesuai kebutuhan */}
       <Route path="*" element={<h1>404 Not Found</h1>} />
     </Routes>
   )

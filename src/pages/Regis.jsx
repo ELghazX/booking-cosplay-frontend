@@ -1,127 +1,161 @@
-import { FaUser, FaPhone, FaEnvelope, FaLock } from "react-icons/fa";
-import illustration from "../assets/foto.png";
-import api from "../api/axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Swal from 'sweetalert2'
+import api from "../api/axios";
+import { useNavigate, Link } from "react-router-dom";
 
-function Regis() {
-    const [form, setForm] = useState({ name: "", email: "", phone: "", password: "" });
-    const navigate = useNavigate();
+export default function Regis() {
+  const [form, setForm] = useState({ name: "", email: "", phone: "", password: "" });
+  const [errors, setErrors] = useState({});
+  const [apiError, setApiError] = useState("");
+  const navigate = useNavigate();
 
-    const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
-    };
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    setErrors(prev => ({ ...prev, [e.target.name]: "" }));
+  };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const res = await api.post("/auth/register", form);
-        try {
-            if (res.data.status == true) {
-                setForm({ name: "", email: "", phone: "", password: "" }); 
-                Swal.fire({
-                    title: "Berhasil!",
-                    text: res.data.message,
-                    icon: "success"
-                });
+  const validateForm = () => {
+    const newErrors = {};
+    if (!form.name.trim()) newErrors.name = "Nama lengkap harus diisi";
+    if (!form.email.trim()) newErrors.email = "Email harus diisi";
+    if (!form.phone.trim()) newErrors.phone = "Nomor telepon harus diisi";
+    if (!form.password.trim()) newErrors.password = "Password harus diisi";
+    return newErrors;
+  };
 
-                navigate("/login");
-            } else {
-                Swal.fire({
-                    title: "Gagal!",
-                    text: res.data.message,
-                    icon: "error"
-                });
-            }
-        } catch (err) {
-            Swal.fire({
-                title: "Error!",
-                text: err?.response?.data?.message || err.message || "Terjadi kesalahan.",
-                icon: "error"
-            });
-        }
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const validationErrors = validateForm();
+    
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+    
+    setErrors({});
+    setApiError("");
 
+    try {
+      const res = await api.post("/auth/register", form);
+      if (res.data.status === true) {
+        alert("Register sukses! Silakan login.");
+        navigate("/login");
+      } else {
+        setApiError(res.data.message || "Register gagal!");
+      }
+    } catch (err) {
+      setApiError(err.response?.data?.message || "Register gagal! " + err.message);
+    }
+  };
     return (
-        <div className="w-screen min-h-screen bg-gray-100 flex items-center justify-center">
-        <div className="w-[1466px] h-[796px] bg-[#F9C9BB] rounded-2xl shadow-lg flex overflow-hidden">
-            {/* Kolom Kiri: Form */}
-            <div className="w-1/2 p-16 flex flex-col justify-center">
-            <h2 className="text-4xl font-bold text-black mb-10 text-center">REGISTER</h2>
+    <div className="min-h-screen bg-[#FFF7F3] flex items-center justify-center">
+        <div className="bg-[#FAD0C4] rounded-2xl shadow-lg flex overflow-hidden p-6">
+            {/* Left Panel - Registration Form */}
+            <div className="w-1/2 p-6 flex flex-col justify-center mr-12">
+            <h2 className="text-3xl font-bold mb-8 text-center">REGISTER</h2>
+            <form className="space-y-3" onSubmit={handleSubmit}>
+                {apiError && <div className="text-red-500 text-sm text-center">{apiError}</div>}
 
-            <form className="space-y-5" onSubmit={handleSubmit}>
-                {/* Nama */}
-                <div className="flex items-center bg-white px-4 py-3 rounded-md">
-                <FaUser className="text-gray-400 mr-3" />
-                <input
+                <div>
+                <label className="text-sm font-medium">Nama Lengkap</label>
+                <div className="mt-1 relative">
+                    <input
                     type="text"
                     name="name"
                     value={form.name}
                     onChange={handleChange}
                     placeholder="Jahron Al-Syukri"
-                    className="w-full bg-transparent outline-none text-sm text-gray-700 placeholder-gray-400"
-                    required
-                />
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white"
+                    />
+                    <div className="text-red-500 text-sm mt-1 min-h-[20px]">
+                        {errors.name || ""}
+                    </div>
+                </div>
                 </div>
 
-                {/* Telepon */}
-                <div className="flex items-center bg-white px-4 py-3 rounded-md">
-                <FaPhone className="text-gray-400 mr-3" />
-                <input
-                    type="tel"
-                    name="phone"
-                    value={form.phone}
-                    onChange={handleChange}
-                    placeholder="0812 0896 0853"
-                    className="w-full bg-transparent outline-none text-sm text-gray-700 placeholder-gray-400"
-                    required
-                />
-                </div>
-
-                {/* Email */}
-                <div className="flex items-center bg-white px-4 py-3 rounded-md">
-                <FaEnvelope className="text-gray-400 mr-3" />
-                <input
+                <div>
+                <label className="text-sm font-medium">Email</label>
+                <div className="mt-1 relative">
+                    <input
                     type="email"
                     name="email"
                     value={form.email}
                     onChange={handleChange}
-                    placeholder="email@gmail.com"
-                    className="w-full bg-transparent outline-none text-sm text-gray-700 placeholder-gray-400"
-                    required
-                />
+                    placeholder="jahron@gmail.com"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white"
+                    />
+                    <div className="text-red-500 text-sm mt-1 min-h-[20px]">
+                        {errors.email || ""}
+                    </div>
+                </div>
                 </div>
 
-                {/* Password */}
-                <div className="flex items-center bg-white px-4 py-3 rounded-md">
-                <FaLock className="text-gray-400 mr-3" />
-                <input
+                <div>
+                <label className="text-sm font-medium">Nomor Telepon</label>
+                <div className="mt-1 relative">
+                    <input
+                    type="tel"
+                    name="phone"
+                    value={form.phone}
+                    onChange={handleChange}
+                    placeholder="089608560823"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white"
+                    />
+                    <div className="text-red-500 text-sm mt-1 min-h-[20px]">
+                        {errors.phone || ""}
+                    </div>
+                </div>
+                </div>
+
+                <div>
+                <label className="text-sm font-medium">Password</label>
+                <div className="mt-1 relative">
+                    <input
                     type="password"
                     name="password"
                     value={form.password}
                     onChange={handleChange}
-                    placeholder="************"
-                    className="w-full bg-transparent outline-none text-sm text-gray-700 placeholder-gray-400"
-                    required
-                />
+                    placeholder="********"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white"
+                    />
+                    <div className="text-red-500 text-sm mt-1 min-h-[20px]">
+                        {errors.password || ""}
+                    </div>
+                </div>
                 </div>
 
-                {/* Tombol Register */}
+                <p className="text-sm text-center py-2">
+                    Sudah punya akun?
+                    <Link
+                    to={"/login"}
+                    >
+                        <span className="text-sm text-blue-500 hover:underline text-center">
+                            Login sekarang!
+                        </span>
+                    </Link>
+                </p>
+                
                 <button
                 type="submit"
-                className="w-full mt-4 bg-[#C199B3] text-white font-semibold py-3 rounded-md text-sm hover:bg-[#b088a8] transition"
+                className="block text-center w-full py-2 bg-[#C599B6] text-white font-semibold rounded-md hover:bg-[#B386A3] transition-colors"
                 >
                 REGISTER
                 </button>
+                
+                <Link
+                to={"/"}
+                className="block text-center w-full py-2 bg-[#C9B6C2] text-white font-semibold rounded-md hover:bg-[#B8A5B1] transition-colors"
+                >
+                Kembali ke Halaman Utama
+                </Link>
             </form>
             </div>
 
-            {/* Kolom Kanan: Gambar */}
-            <div className="w-full md:w-1/2 flex justify-center items-center h-full">
+            {/* Right Panel - Illustration */}
+            <div className="w-1/2 p-8 flex items-center justify-center bg-[#FECFC3] ml-12">
             <img
-                src={illustration}
-                alt="Illustration"
-                className="w-[80%] max-w-[600px]"
+                src="/register-illust.png" // You might want to use a different image for registration
+                alt="Fashion illustration"
+                className="max-w-full max-h-full object-contain"
             />
             </div>
         </div>
