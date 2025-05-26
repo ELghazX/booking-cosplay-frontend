@@ -9,6 +9,9 @@ import Register from './pages/Regis';
 import Detail  from './pages/Detail';
 import Userprofile from './pages/Userprofile';
 import Editbooking from './pages/Editbooking';
+import Tambahkostum from './pages/Tambahkostum';
+import Ubahkostum from './pages/Ubahkostum';
+import Tambahaksesoris from './pages/Tambahaksesoris';
 
 function App() {
   return (
@@ -23,6 +26,9 @@ function App() {
       <Route path="/Userprofile" element={<Userprofile />} />
       <Route path="/Detail" element={<Detail />} />
       <Route path="/Editbooking" element={<Editbooking />} />
+      <Route path="/Tambahkostum" element={<Tambahkostum />} />
+      <Route path="/Ubahkostum" element={<Ubahkostum />} />
+      <Route path="/Tambahaksesoris" element={<Tambahaksesoris />} />
       <Route path="*" element={<h1>404 Not Found</h1>} />
     </Routes>
   )
