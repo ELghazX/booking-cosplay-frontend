@@ -1,7 +1,7 @@
 import { FaEye, FaEdit, FaTrash } from 'react-icons/fa';
 import Sidebar from "../Components/Sidebar";
 
-export default function Confirmedbooking() {
+export default function Bookinghistory() {
   const bookings = [
     {
       no: 6,

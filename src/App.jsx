@@ -15,6 +15,7 @@ import Pendingbooking from './pages/Pendingbooking';
 import Confirmedbooking from './pages/Confirmedbooking';
 import Cancelledbooking from './pages/Cancelledbooking';
 import Bookinghistory from './pages/Bookinghistory';
+import Item from './pages/Item';
 
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
       <Route path="/Confirmedbooking" element={<Confirmedbooking />} />
       <Route path="/Cancelledbooking" element={<Cancelledbooking />} />
       <Route path="/Bookinghistory" element={<Bookinghistory />} />
+      <Route path="/item" element={<Item />} />
       <Route path="/userprofile" element={
         <ProtectedRoute>
           <Userprofile />
