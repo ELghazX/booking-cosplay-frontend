@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 export default function RiwayatItem({ item, onCancel }) {
     const statusStyles = {
         PENDING: "bg-yellow-100 text-yellow-800",
@@ -6,12 +8,20 @@ export default function RiwayatItem({ item, onCancel }) {
       };
     
       const handleCancel = async () => {
-        if (window.confirm("Apakah Anda yakin ingin membatalkan booking ini?")) {
+        const result = await Swal.fire({
+          title: "Konfirmasi",
+          text: "Apakah Anda yakin ingin membatalkan booking ini?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Ya, batalkan!",
+          cancelButtonText: "Batal"
+        });
+        if (result.isConfirmed) {
           try {
             await onCancel(item.id);
-            alert("Booking berhasil dibatalkan!");
+            Swal.fire("Berhasil!", "Booking berhasil dibatalkan!", "success");
           } catch (error) {
-            alert("Gagal membatalkan booking");
+            Swal.fire("Gagal!", "Gagal membatalkan booking", "error");
           }
         }
       };
