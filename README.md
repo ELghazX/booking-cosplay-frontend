@@ -1,16 +1,18 @@
-# React + Vite
+# Website Platform Booking Cosplay ChocoMintCos
 
 Cara menjalankan
 pastikan kamu udah ada install Node
 kemudian:
 
-```shell
+shell
 npm install
-```
 
-```shell
+
+shell
 npm run dev
-```
+
+
+biarkan terminal terbuka, buka browser dan akses ke link yang diberikan di terminal.
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
