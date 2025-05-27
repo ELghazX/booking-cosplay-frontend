@@ -6,6 +6,8 @@ import Searching from "../Components/Searching";
 import CosplayCard from "../Components/CosplayCard";
 import api from "../api/axios";
 import rijal from "/img/rijal tidur.jpg";
+// Ganti dengan path fallback baru
+import defaultProfile from "../assets/profile.png";
 
 export default function Koleksi() {
   const [allItems, setAllItems] = useState([]); // Original items
@@ -14,9 +16,17 @@ export default function Koleksi() {
   const [error, setError] = useState(null);
 
   const validateImageUrl = (imageUrl) => {
-    if (!imageUrl) return rijal;
-    const isValidFormat = /\.(jpe?g|png)$/i.test(imageUrl);
-    return isValidFormat ? `/img/${imageUrl}` : rijal;
+    console.log("imageUrl dari database:", imageUrl);
+    if (!imageUrl) return defaultProfile;
+    if (/^https?:\/\//i.test(imageUrl)) {
+      // Sudah berupa URL penuh
+      return imageUrl;
+    }
+    const cloudinaryBase = "https://res.cloudinary.com/dqbfizrkk/image/upload/";
+    const isValidFormat = /\.(jpe?g|png|webp)$/i.test(imageUrl);
+    const url = isValidFormat ? `${cloudinaryBase}${imageUrl}` : defaultProfile;
+    console.log("URL gambar yang dipakai:", url);
+    return url;
   };
 
   useEffect(() => {

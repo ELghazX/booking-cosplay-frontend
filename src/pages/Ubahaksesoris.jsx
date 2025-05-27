@@ -1,21 +1,54 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
-  FaPhoneAlt, FaUser, FaTshirt, FaMoneyBillWave,
-  FaImage
+  FaUser, FaTshirt, FaMoneyBillWave, FaImage
 } from "react-icons/fa";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import Sidebar from "../Components/Sidebar";
+import api from "../api/axios";
+import Swal from "sweetalert2";
 
 export default function Ubahaksesoris() {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [preview, setPreview] = useState(null);
   const [fileName, setFileName] = useState("");
-  const [selectedSize, setSelectedSize] = useState("");
-  const [selectedGender, setSelectedGender] = useState("");
+  const [form, setForm] = useState({
+    name: "",
+    pricePerDay: "",
+    size: "",
+    characterName: "",
+    gender: "",
+    image: null,
+  });
+
+  useEffect(() => {
+    // Ambil data aksesoris berdasarkan id
+    const fetchData = async () => {
+      try {
+        const res = await api.get(`/items//update-accessory/${id}`);
+        if (res.data.status) {
+          setForm({
+            name: res.data.data.name,
+            pricePerDay: res.data.data.pricePerDay,
+            size: res.data.data.size,
+            characterName: res.data.data.characterName,
+            gender: res.data.data.gender,
+            image: null,
+          });
+          setPreview(res.data.data.imageUrl); 
+        }
+      } catch (err) {
+        Swal.fire("Gagal!", "Gagal mengambil data aksesoris", "error");
+      }
+    };
+    fetchData();
+  }, [id]);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setFileName(file.name);
+      setForm(f => ({ ...f, image: file }));
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreview(reader.result);
@@ -24,85 +57,117 @@ export default function Ubahaksesoris() {
     }
   };
 
+  const handleChange = (e) => {
+    setForm(f => ({ ...f, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const data = new FormData();
+      data.append("name", form.name);
+      data.append("pricePerDay", form.pricePerDay);
+      data.append("size", form.size);
+      data.append("characterName", form.characterName);
+      data.append("gender", form.gender);
+      if (form.image) data.append("image", form.image);
+
+      const res = await api.put(`/items/update-accessory/${id}`, data, {
+        headers: { "Content-Type": "multipart/form-data" }
+      });
+      if (res.data.status) {
+        Swal.fire("Berhasil!", "Aksesoris berhasil diubah.", "success").then(() => {
+          navigate("/item");
+        });
+      } else {
+        Swal.fire("Gagal!", res.data.message || "Gagal mengubah aksesoris", "error");
+      }
+    } catch (err) {
+      Swal.fire("Gagal!", err.response?.data?.message || "Gagal mengubah aksesoris", "error");
+    }
+  };
+
   return (
-    <div className="flex min-h-screen bg-[#FFF8F5] font-sans text-sm">
-      {/* Sidebar */}
-      <aside className="w-64 bg-[#FBD7CF] p-6 flex flex-col text-black">
-        <h1 className="text-[#D48DB3] font-bold text-xl mb-8 text-center">ChocoMintCos</h1>
-        <div className="font-bold text-xs text-gray-600 uppercase mb-4">Dashboard</div>
-        <nav className="space-y-4">
-          <div className="flex items-center gap-2 text-black"><FaPhoneAlt className="w-4 h-4" /><span>Pending Booking</span></div>
-          <div className="flex items-center gap-2 text-black"><FaPhoneAlt className="w-4 h-4" /><span>Confirmed Booking</span></div>
-          <div className="flex items-center gap-2 text-black"><FaPhoneAlt className="w-4 h-4" /><span>Cancelled Booking</span></div>
-          <div className="flex items-center gap-2 text-black"><FaPhoneAlt className="w-4 h-4" /><span>Booking History</span></div>
-          <div className="mt-6 text-xs font-bold text-gray-600 uppercase">Master Data</div>
-          <div className="flex items-center gap-2 text-black"><FaTshirt className="w-4 h-4" /><span>Item</span></div>
-        </nav>
-      </aside>
-
-      {/* Main Content */}
+    <div className="flex">
+      <Sidebar />
       <main className="flex-1 p-10">
-        <div className="flex justify-between items-center mb-6">
-          <div>
-            <h2 className="text-lg font-semibold">Selamat Datang, Raja Jawa</h2>
-            <p className="text-sm text-gray-600">Selasa, 18 Mei 2025</p>
-          </div>
-          <button className="bg-[#D48DB3] text-white rounded px-4 py-2 text-sm">Logout</button>
-        </div>
-
-        <div className="bg-white rounded-2xl shadow p-8 w-full">
-          <div className="flex justify-between items-center mb-6">
-            <div>
-              <h3 className="font-bold text-xl">Tambah Aksesoris</h3>
-              <p className="text-sm text-gray-500">Menampilkan Detail</p>
-            </div>
-          </div>
-
+        <form onSubmit={handleSubmit}>
           <div className="space-y-6">
-
             <div className="grid grid-cols-1 gap-6">
               <div>
-                <label className="text-sm font-medium">Nama item</label>
+                <label className="text-sm font-medium">Nama Aksesoris</label>
                 <div className="flex items-center border rounded px-4 py-3">
                   <FaTshirt className="text-gray-400 mr-2" />
                   <input
-                    placeholder="Kostum Walid"
+                    name="name"
+                    value={form.name}
+                    onChange={handleChange}
+                    placeholder="Nama Aksesoris"
                     className="w-full bg-transparent outline-none text-sm placeholder-gray-400"
                   />
                 </div>
               </div>
-
               <div>
-                <label className="text-sm font-medium">Harga item perhari</label>
+                <label className="text-sm font-medium">Harga per Hari</label>
                 <div className="flex items-center border rounded px-4 py-3">
-                  <FaPhoneAlt className="text-gray-400 mr-2" />
+                  <FaMoneyBillWave className="text-gray-400 mr-2" />
                   <input
-                    placeholder="20000"
+                    name="pricePerDay"
+                    value={form.pricePerDay}
+                    onChange={handleChange}
+                    placeholder="12000"
                     className="w-full bg-transparent outline-none text-sm placeholder-gray-400"
+                    type="number"
                   />
                 </div>
               </div>
-
-              {/* Dropdown tipe */}
               <div>
-                <label className="text-sm font-medium">Size</label>
+                <label className="text-sm font-medium">Ukuran</label>
                 <div className="flex items-center border rounded px-4 py-3">
                   <FaUser className="text-gray-400 mr-2" />
                   <select
-                    value={selectedSize}
-                    onChange={(e) => setSelectedSize(e.target.value)}
+                    name="size"
+                    value={form.size}
+                    onChange={handleChange}
                     className="w-full bg-transparent outline-none text-sm text-gray-700"
                   >
-                    <option value="">Pilih Tipe</option>
-                    <option value="S">Senjata</option>
-                    <option value="M">Kepala</option>
-                    <option value="L">Perhiasan</option>
+                    <option value="">Pilih Ukuran</option>
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
                   </select>
                 </div>
               </div>
-
-
-              {/* Upload Gambar */}
+              <div>
+                <label className="text-sm font-medium">Nama Karakter</label>
+                <div className="flex items-center border rounded px-4 py-3">
+                  <FaUser className="text-gray-400 mr-2" />
+                  <input
+                    name="characterName"
+                    value={form.characterName}
+                    onChange={handleChange}
+                    placeholder="Nama Karakter"
+                    className="w-full bg-transparent outline-none text-sm placeholder-gray-400"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="text-sm font-medium">Gender</label>
+                <div className="flex items-center border rounded px-4 py-3">
+                  <FaUser className="text-gray-400 mr-2" />
+                  <select
+                    name="gender"
+                    value={form.gender}
+                    onChange={handleChange}
+                    className="w-full bg-transparent outline-none text-sm text-gray-700"
+                  >
+                    <option value="">Pilih Gender</option>
+                    <option value="male">Laki-laki</option>
+                    <option value="female">Perempuan</option>
+                  </select>
+                </div>
+              </div>
               <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-700 mb-2">Upload Gambar</label>
                 <div className="flex items-center border rounded px-4 py-3 gap-4">
@@ -126,19 +191,19 @@ export default function Ubahaksesoris() {
               </div>
             </div>
           </div>
-
           <div className="flex justify-center gap-8 mt-10">
             <button
+              type="button"
               onClick={() => navigate(-1)}
               className="bg-[#D48DB3] text-white px-6 py-2 rounded-md text-sm flex items-center gap-2"
             >
               Kembali
             </button>
-            <button className="bg-[#F4A1B2] text-white px-6 py-2 rounded-md text-sm flex items-center gap-2">
-              Ubah Item
+            <button type="submit" className="bg-[#F4A1B2] text-white px-6 py-2 rounded-md text-sm flex items-center gap-2">
+              Ubah Aksesoris
             </button>
           </div>
-        </div>
+        </form>
       </main>
     </div>
   );

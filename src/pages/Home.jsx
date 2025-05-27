@@ -8,6 +8,7 @@ import bentuk2 from "../assets/blob2.png";
 import CosplayCard from "../Components/CosplayCard";
 import Footer from "../Components/Footer";
 import rijal from "../assets/rijal tidur.jpg";
+import defaultProfile from "../assets/profile.png";
 
 export default function Home() {
   const [card, setCard] = useState([]);
@@ -15,9 +16,13 @@ export default function Home() {
   const [error, setError] = useState(null);
 
   const validateImageUrl = (imageUrl) => {
-    if (!imageUrl) return rijal;
+    if (!imageUrl) return defaultProfile;
+    if (/^https?:\/\//i.test(imageUrl)) {
+      return imageUrl;
+    }
+    const cloudinaryBase = "https://res.cloudinary.com/dqbfizrkk/image/upload/";
     const isValidFormat = /\.(jpe?g|png|webp)$/i.test(imageUrl);
-    return isValidFormat ? `/img/${imageUrl}` : rijal;
+    return isValidFormat ? `${cloudinaryBase}${imageUrl}` : defaultProfile;
   };
 
   useEffect(() => {
@@ -65,14 +70,14 @@ export default function Home() {
       </div>
       <img src={foto} alt="" className="h-2xl" />
     </div>
-    <p className="px-[5%] text-7xl text-[#C599B6] font-bold mt-50">Koleksi</p>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-[5%] py-10">
+    <p className="px-[5%] text-7xl text-[#C599B6] font-bold mt-10 text-center">Koleksi Populer</p>
+      <div className="flex flex-row gap-8 px-[5%] py-10 justify-center items-center flex-wrap">
         {isLoading ? (
           <p className="text-center text-3xl text-[#C599B6]">Loading...</p>
         ) : error ? (
           <p className="text-center text-3xl text-red-500">{error}</p>
         ) : card.length > 0 ? (
-          card.map((item) => (
+          card.slice(0, 8).map((item) => (
             <CosplayCard
               key={item.id}
               cosplay={{

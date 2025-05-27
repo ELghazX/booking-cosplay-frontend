@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import api from "../api/axios";
 import Navbar from "../Components/Navbar";
 import RiwayatItem from "../Components/RiwayatItem";
+import Swal from "sweetalert2";
 
 export default function Riwayat() {
     const [riwayat, setRiwayat] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const userId = localStorage.getItem("userId");
+    const userId = localStorage.getItem("id");
 
     useEffect(() => {
         const fetchRiwayat = async () => {
@@ -43,11 +44,15 @@ export default function Riwayat() {
             setRiwayat(prev => prev.map(item => 
               item.id === bookingId ? {...item, status: "CANCELLED"} : item
             ));
+            Swal.fire("Berhasil!", "Booking berhasil dibatalkan.", "success");
+          } else {
+            Swal.fire("Gagal!", response.data.message || "Gagal membatalkan booking.", "error");
           }
 
           return response.data;
         } catch (error) {
           console.error("Cancel failed:", error);
+          Swal.fire("Gagal!", error.response?.data?.message || "Terjadi kesalahan saat membatalkan booking.", "error");
           throw error;
         }
       };    

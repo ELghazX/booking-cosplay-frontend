@@ -1,59 +1,70 @@
 import {
   FaClock,
-  FaCheckCircle,
-  FaTimesCircle,
-  FaHistory,
-  FaBoxOpen,
-  FaSignOutAlt,
+  FaCalculator,
+  FaChevronLeft,
   FaPhoneAlt,
   FaUser,
   FaTshirt,
   FaMoneyBillWave,
-  FaCalculator,
-  FaChevronLeft,
-  FaBorderAll,
 } from "react-icons/fa";
-import { CgMenuBoxed, CgNotes } from "react-icons/cg";
-
+import { CgMenuBoxed } from "react-icons/cg";
+import Sidebar from "../Components/Sidebar";
+import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import api from "../api/axios";
 
 export default function DetailBooking() {
-  return (
-    <div className="flex min-h-screen bg-[#FFF8F5] font-sans text-sm">
-      {/* Sidebar */}
-      <aside className="w-60 bg-[#FBD7CF] p-5 flex flex-col text-black">
-        <h1 className="text-[#D48DB3] font-bold text-xl mb-6 text-center">
-          ChocoMintCos
-        </h1>
-        <div className="mb-4 text-xs font-bold uppercase tracking-wide text-gray-600">
-          Dashboard
-        </div>
-        <nav className="space-y-4">
-          <div className="flex items-center gap-2">
-            <CgNotes className="w-4 h-4" />
-            <span>Pending Booking</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <FaCheckCircle className="w-4 h-4" />
-            <span>Confirmed Booking</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <FaTimesCircle className="w-4 h-4" />
-            <span>Cancelled Booking</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <FaHistory className="w-4 h-4" />
-            <span>Booking History</span>
-          </div>
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [booking, setBooking] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-          <div className="mt-6 text-xs font-bold uppercase tracking-wide text-gray-600">
-            Master Data
-          </div>
-          <div className="flex items-center gap-2">
-            <FaTshirt className="w-4 h-4" />
-            <span>Item</span>
-          </div>
-        </nav>
-      </aside>
+  useEffect(() => {
+    const fetchBooking = async () => {
+      setLoading(true);
+      try {
+        const res = await api.get(`/bookings/${id}`);
+        if (res.data.status && res.data.data) {
+          setBooking(res.data.data);
+          setError("");
+        } else {
+          setError(res.data.message || "Data tidak ditemukan");
+        }
+      } catch (err) {
+        setError(err.response?.data?.message || "Terjadi kesalahan");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBooking();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="flex">
+        <Sidebar />
+        <div className="flex-1 flex items-center justify-center">
+          <p>Memuat data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !booking) {
+    return (
+      <div className="flex">
+        <Sidebar />
+        <div className="flex-1 flex items-center justify-center">
+          <p className="text-red-500">{error || "Data tidak ditemukan"}</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex ">
+      <Sidebar />
 
       {/* Main Content */}
       <main className="flex-1 p-8">
@@ -61,7 +72,14 @@ export default function DetailBooking() {
         <div className="flex justify-between items-start mb-6">
           <div>
             <h2 className="text-md font-semibold">Selamat Datang, Raja Jawa</h2>
-            <p className="text-sm text-gray-600">Selasa, 18 Mei 2025</p>
+            <p className="text-sm text-gray-600">
+              {new Date().toLocaleDateString("id-ID", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </p>
           </div>
           <button className="bg-[#D48DB3] text-white rounded px-4 py-1 text-sm">
             Logout
@@ -77,9 +95,19 @@ export default function DetailBooking() {
             </div>
             <div className="text-sm">
               <span className="text-gray-700 font-medium">Status Pesanan: </span>
-              <span className="bg-yellow-300 text-gray-800 rounded-full px-3 py-0.5 text-sm font-medium">
-                Pending
-              </span>
+              {booking.status === "CONFIRMED" ? (
+                <span className="bg-green-200 text-green-800 rounded-full px-3 py-0.5 text-sm font-medium">
+                  {booking.status}
+                </span>
+              ) : booking.status === "CANCELLED" ? (
+                <span className="bg-red-200 text-red-800 rounded-full px-3 py-0.5 text-sm font-medium">
+                  {booking.status}
+                </span>
+              ) : (
+                <span className="bg-yellow-300 text-gray-800 rounded-full px-3 py-0.5 text-sm font-medium">
+                  {booking.status}
+                </span>
+              )}
             </div>
           </div>
 
@@ -88,7 +116,7 @@ export default function DetailBooking() {
               <label className="text-sm font-medium">Id Booking</label>
               <div className="flex items-center border rounded px-3 py-2">
                 <CgMenuBoxed className="text-gray-400 mr-2" />
-                <span className="text-gray-700 text-sm">2</span>
+                <span className="text-gray-700 text-sm">{booking.id}</span>
               </div>
             </div>
 
@@ -96,7 +124,7 @@ export default function DetailBooking() {
               <label className="text-sm font-medium">Nomor HP Pemesan</label>
               <div className="flex items-center border rounded px-3 py-2">
                 <FaPhoneAlt className="text-gray-400 mr-2" />
-                <span className="text-gray-700 text-sm">08245678452</span>
+                <span className="text-gray-700 text-sm">{booking.phone || "-"}</span>
               </div>
             </div>
 
@@ -104,7 +132,7 @@ export default function DetailBooking() {
               <label className="text-sm font-medium">Nama Pelanggan</label>
               <div className="flex items-center border rounded px-3 py-2">
                 <FaUser className="text-gray-400 mr-2" />
-                <span className="text-gray-700 text-sm">Iliga</span>
+                <span className="text-gray-700 text-sm">{booking.nameUser}</span>
               </div>
             </div>
 
@@ -112,7 +140,7 @@ export default function DetailBooking() {
               <label className="text-sm font-medium">Nama Item</label>
               <div className="flex items-center border rounded px-3 py-2">
                 <FaTshirt className="text-gray-400 mr-2" />
-                <span className="text-gray-700 text-sm">Kostum Miku</span>
+                <span className="text-gray-700 text-sm">{booking.itemName}</span>
               </div>
             </div>
 
@@ -121,7 +149,9 @@ export default function DetailBooking() {
                 <label className="text-sm font-medium">Harga Item per Hari</label>
                 <div className="flex items-center border rounded px-3 py-2">
                   <FaMoneyBillWave className="text-gray-400 mr-2" />
-                  <span className="text-gray-700 text-sm">3.000</span>
+                  <span className="text-gray-700 text-sm">
+                    {booking.pricePerDay?.toLocaleString("id-ID", { style: "currency", currency: "IDR" })}
+                  </span>
                 </div>
               </div>
 
@@ -129,8 +159,16 @@ export default function DetailBooking() {
                 <label className="text-sm font-medium">Durasi</label>
                 <div className="flex items-center border rounded px-3 py-2">
                   <FaClock className="text-gray-400 mr-2" />
-                  <span className="text-gray-700 text-sm">Berat cucian</span>
+                  <span className="text-gray-700 text-sm">{booking.duration} hari</span>
                 </div>
+              </div>
+            </div>
+
+            <div>
+              <label className="text-sm font-medium">Tanggal Mulai</label>
+              <div className="flex items-center border rounded px-3 py-2">
+                <FaClock className="text-gray-400 mr-2" />
+                <span className="text-gray-700 text-sm">{booking.startDate}</span>
               </div>
             </div>
 
@@ -139,14 +177,17 @@ export default function DetailBooking() {
               <div className="flex items-center border rounded px-3 py-2">
                 <FaCalculator className="text-gray-400 mr-2" />
                 <span className="text-gray-700 text-sm">
-                  4 x 3.000 = 12.000
+                  {booking.totalPrice?.toLocaleString("id-ID", { style: "currency", currency: "IDR" })}
                 </span>
               </div>
             </div>
           </div>
 
           <div className="flex justify-center mt-8">
-            <button className="bg-[#D48DB3] text-white px-6 py-2 rounded-md text-sm flex items-center gap-2">
+            <button
+              className="bg-[#D48DB3] text-white px-6 py-2 rounded-md text-sm flex items-center gap-2"
+              onClick={() => navigate(-1)}
+            >
               <FaChevronLeft />
               Kembali
             </button>

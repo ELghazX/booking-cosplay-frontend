@@ -4,7 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 export default function Regis() {
-    const [form, setForm] = useState({ name: "", email: "", phone: "", password: "" });
+    const [form, setForm] = useState({ name: "", email: "", phone: "", password: "", role: "USER" });
     const [errors, setErrors] = useState({});
     const [apiError, setApiError] = useState("");
     const navigate = useNavigate();

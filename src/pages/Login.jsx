@@ -50,7 +50,7 @@ export default function Login() {
             text: res.data.message,
             icon: "success"
           });
-          navigate("/admin");
+          navigate("/item");
         } else {
           Swal.fire({
             title: "Berhasil!",

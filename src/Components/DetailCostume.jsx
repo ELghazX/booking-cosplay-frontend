@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import rijal from "../assets/rijal tidur.jpg";
+import defaultProfile from "../assets/profile.png";
+import Swal from "sweetalert2";
 
 export default function DetailCostume({ item }) {
   const navigate = useNavigate();
@@ -9,7 +11,7 @@ export default function DetailCostume({ item }) {
     date: "",
     duration: 1,
   });
-  
+
   const handleBack = () => {
     navigate("/koleksi");
   };
@@ -17,18 +19,18 @@ export default function DetailCostume({ item }) {
   const handleBooking = async () => {
     try {
       if (!form.date) {
-        alert("Harap pilih tanggal sewa");
+        Swal.fire("Gagal!", "Harap pilih tanggal sewa", "error");
         return;
       }
-      
+
       if (form.duration < 1) {
-        alert("Durasi harus minimal 1 hari");
+        Swal.fire("Gagal!", "Durasi harus minimal 1 hari", "error");
         return;
       }
-      const userId = localStorage.getItem("userId");
+      const userId = localStorage.getItem("id");
 
       if (!userId) {
-        alert("Anda harus login terlebih dahulu!");
+        Swal.fire("Gagal!", "Anda harus login terlebih dahulu!", "error");
         return;
       }
 
@@ -43,17 +45,17 @@ export default function DetailCostume({ item }) {
         { headers: { "Content-Type": "application/json" } }
       );
       if (response.data.status) {
-        alert("Booking berhasil!");
-        navigate("/koleksi");
+        Swal.fire("Berhasil!", "Booking berhasil!", "success").then(() => {
+          navigate("/koleksi");
+        });
       } else {
-        alert(response.data.message || "Booking gagal!");
+        Swal.fire("Gagal!", response.data.message || "Booking gagal!", "error");
       }
     } catch (error) {
       console.error("Error during booking:", error);
-      alert("Terjadi kesalahan saat melakukan booking. Silakan coba lagi.");
+      Swal.fire("Gagal!", error.response?.data?.message || "Terjadi kesalahan saat melakukan booking. Silakan coba lagi.", "error");
     }
-  } 
-
+  };
 
   const toTitleCase = (str) => {
     if (!str) return ""; // Handle empty/null case
@@ -65,6 +67,17 @@ export default function DetailCostume({ item }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
+  };
+
+  // Fungsi validasi URL gambar
+  const validateImageUrl = (imageUrl) => {
+    if (!imageUrl) return defaultProfile;
+    if (/^https?:\/\//i.test(imageUrl)) {
+      return imageUrl;
+    }
+    const cloudinaryBase = "https://res.cloudinary.com/dqbfizrkk/image/upload/";
+    const isValidFormat = /\.(jpe?g|png|webp)$/i.test(imageUrl);
+    return isValidFormat ? `${cloudinaryBase}${imageUrl}` : defaultProfile;
   };
 
   if (item.deleted) {
@@ -83,9 +96,9 @@ export default function DetailCostume({ item }) {
       <div className="md:w-1/2 w-full flex items-center justify-center p-6">
         <div className="relative">
           <img
-            src={`/img/${item.imageUrl}`}
+            src={validateImageUrl(item.imageUrl)}
             alt={item.name}
-            onError={(e) => (e.target.src = rijal)}
+            onError={(e) => (e.target.src = defaultProfile)}
             className="w-full h-full object-contain rounded-xl"
           />
         </div>
@@ -205,10 +218,10 @@ export default function DetailCostume({ item }) {
         </div>
 
         <div className="flex justify-center space-x-4 pt-4 mt-auto">
-          <button onClick={handleBack} className="bg-[#C599B6] hover:bg-[#b487a3] text-white px-8 py-4 rounded-xl transition-all ease-in-out duration-300 hover:scale-105 shadow-lg hover:shadow-xl shadow-[#C599B6]/40 text-lg font-semibold">
+          <button type="button" onClick={handleBack} className="bg-[#C599B6] hover:bg-[#b487a3] text-white px-8 py-4 rounded-xl transition-all ease-in-out duration-300 hover:scale-105 shadow-lg hover:shadow-xl shadow-[#C599B6]/40 text-lg font-semibold">
             Kembali
           </button>
-          <button onClick={handleBooking} className="bg-[#FAD0C4] hover:bg-[#e6bcb1] text-white px-8 py-4 rounded-xl transition-all ease-in-out duration-300 hover:scale-105 shadow-lg hover:shadow-xl shadow-[#FAD0C4]/40 text-lg font-semibold">
+          <button type="button" onClick={handleBooking} className="bg-[#FAD0C4] hover:bg-[#e6bcb1] text-white px-8 py-4 rounded-xl transition-all ease-in-out duration-300 hover:scale-105 shadow-lg hover:shadow-xl shadow-[#FAD0C4]/40 text-lg font-semibold">
             Buat Booking
           </button>
         </div>
