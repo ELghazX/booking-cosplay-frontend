@@ -19,6 +19,7 @@ export default function DetailBooking() {
   const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const name = localStorage.getItem("name");
 
   useEffect(() => {
     const fetchBooking = async () => {
@@ -71,7 +72,7 @@ export default function DetailBooking() {
         {/* Header */}
         <div className="flex justify-between items-start mb-6">
           <div>
-            <h2 className="text-md font-semibold">Selamat Datang, Raja Jawa</h2>
+            <h2 className="text-md font-semibold">Selamat Datang, {name}</h2>
             <p className="text-sm text-gray-600">
               {new Date().toLocaleDateString("id-ID", {
                 weekday: "long",

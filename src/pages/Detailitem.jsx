@@ -3,6 +3,18 @@ import { useParams, useNavigate } from "react-router-dom";
 import Sidebar from "../Components/Sidebar";
 import api from "../api/axios";
 import rijal from "../assets/rijal tidur.jpg";
+import defaultProfile from "../assets/profile.png";
+
+// Fungsi validasi URL gambar (seperti di halaman lain)
+const validateImageUrl = (imageUrl) => {
+  if (!imageUrl) return defaultProfile;
+  if (/^https?:\/\//i.test(imageUrl)) {
+    return imageUrl;
+  }
+  const cloudinaryBase = "https://res.cloudinary.com/dqbfizrkk/image/upload/";
+  const isValidFormat = /\.(jpe?g|png|webp)$/i.test(imageUrl);
+  return isValidFormat ? `${cloudinaryBase}${imageUrl}` : defaultProfile;
+};
 
 export default function Detail() {
   const { id } = useParams();
@@ -72,9 +84,9 @@ export default function Detail() {
             <div className="md:w-1/2 w-full flex items-center justify-center p-6">
               <div className="relative">
                 <img
-                  src={`/img/${item.imageUrl}`}
+                  src={validateImageUrl(item.imageUrl)}
                   alt={item.name}
-                  onError={(e) => (e.target.src = rijal)}
+                  onError={(e) => (e.target.src = defaultProfile)}
                   className="w-full h-full object-contain rounded-xl"
                 />
               </div>
@@ -171,9 +183,9 @@ export default function Detail() {
             <div className="md:w-1/2 w-full flex items-center justify-center p-6">
               <div className="relative">
                 <img
-                  src={`/img/${item.imageUrl}`}
+                  src={validateImageUrl(item.imageUrl)}
                   alt={item.name}
-                  onError={(e) => (e.target.src = rijal)}
+                  onError={(e) => (e.target.src = defaultProfile)}
                   className="w-full h-full object-contain rounded-xl"
                 />
               </div>

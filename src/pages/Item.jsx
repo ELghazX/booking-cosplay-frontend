@@ -29,7 +29,7 @@ export default function Item() {
   const handleDelete = async (id) => {
     const confirm = await Swal.fire({
       title: "Yakin hapus item ini?",
-      text: "Item akan disembunyikan dari daftar.",
+      text: "Item akan dihapus secara permanen.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Ya, hapus!",
@@ -37,9 +37,13 @@ export default function Item() {
     });
     if (confirm.isConfirmed) {
       try {
-        await api.patch(`/items/${id}`, { deleted: true });
-        setItems(items => items.map(item => item.id === id ? { ...item, deleted: true } : item));
-        Swal.fire("Berhasil!", "Item telah dihapus.", "success");
+        const response = await api.delete(`/items/${id}`);
+        if (response.data.status) {
+          setItems(items => items.filter(item => item.id !== id));
+          Swal.fire("Berhasil!", "Item telah dihapus.", "success");
+        } else {
+          Swal.fire("Gagal!", response.data.message || "Gagal menghapus item.", "error");
+        }
       } catch (err) {
         Swal.fire("Gagal!", err.response?.data?.message || "Terjadi kesalahan.", "error");
       }
@@ -56,7 +60,10 @@ export default function Item() {
         // Ganti endpoint sesuai API Anda
         const res = await api.get("/items");
         if (res.data.status) {
-          setItems(res.data.data);
+          setItems(res.data.data.map(item => ({
+            ...item,
+            deleted: !!item.deleted // pastikan boolean
+          })));
           setTotalData(res.data.data.length);
           setError("");
         } else {
@@ -77,8 +84,8 @@ export default function Item() {
 
   
   const filteredItems = items
-    .filter(item => !item.deleted)
-    .filter(item => filterKategori === "ALL" ? true : item.category == filterKategori);
+    .filter(item => !item.deleted) // hanya tampilkan yang belum dihapus
+    .filter(item => filterKategori === "ALL" ? true : item.category === filterKategori);
 
   // Pagination
   const totalPages = Math.ceil(filteredItems.length / DATA_PER_PAGE);
@@ -134,21 +141,6 @@ export default function Item() {
             Menampilkan Item di Sistem ChocomintCos
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6">
-            <div>
-              <label className="block text-gray-700 text-sm mb-1">Kategori</label>
-              <select
-                className="border rounded px-3 py-2 w-full text-sm text-gray-700"
-                value={filterKategori}
-                onChange={e => { setFilterKategori(e.target.value)}}
-              >
-                <option value="ALL">Semua</option>
-                <option value="costume">Costume</option>
-                <option value="accessory">Accessory</option>
-              </select>
-            </div>
-          </div>
-
           {isLoading ? (
             <div className="text-center py-8">Memuat data...</div>
           ) : error ? (
@@ -183,11 +175,12 @@ export default function Item() {
                             className="bg-blue-600 text-white p-2 rounded"
                             onClick={() => {
                               if (item.category === "costume") {
-                                handleEditKostum(item);
+                                navigate(`/ubah-kostum/${item.id}`);
                               } else if (item.category === "accessory") {
-                                handleEditAksesoris(item);
+                                navigate(`/ubah-aksesoris/${item.id}`);
                               }
                             }}
+                            disabled={item.deleted}
                           >
                             <FaEdit />
                           </button>

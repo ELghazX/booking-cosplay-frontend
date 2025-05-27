@@ -20,6 +20,7 @@ export default function Tambahkostum() {
     karakter: "",
     gambar: null,
   });
+  const name = localStorage.getItem("name");
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -106,7 +107,7 @@ export default function Tambahkostum() {
       <main className="flex-1 p-10">
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h2 className="text-lg font-semibold">Selamat Datang, Raja Jawa</h2>
+            <h2 className="text-lg font-semibold">Selamat Datang, {name}</h2>
             <p className="text-sm text-gray-600">{new Date().toLocaleDateString("id-ID", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</p>
           </div>
           <button className="bg-[#D48DB3] text-white rounded px-4 py-2 text-sm">Logout</button>
